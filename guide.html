@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biology for Engineers — Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fdf8f0;
+  --bg2: #f5ede0;
+  --bg3: #ede0cc;
+  --ink: #1a1208;
+  --ink2: #3d2e1a;
+  --ink3: #6b5540;
+  --ink4: #9a7e62;
+  --accent: #b5472a;
+  --accent2: #d4691e;
+  --accent3: #e8a050;
+  --green: #2a6b3a;
+  --green2: #3d8c50;
+  --blue: #1e4d7a;
+  --blue2: #2d6ba8;
+  --purple: #5a2d7a;
+  --teal: #1a6b6b;
+  --border: #d4bc9a;
+  --border2: #e8d8c0;
+  --shadow: rgba(26,18,8,0.08);
+  --shadow2: rgba(26,18,8,0.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+/* ── SIDEBAR ── */
+.layout { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: var(--ink);
+  color: #f0e8d8;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-brand {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-brand .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent3);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.sidebar-brand h2 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fdf8f0;
+  line-height: 1.3;
+}
+
+.sidebar-progress {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.progress-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent3), var(--accent2));
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.sidebar-nav { padding: 16px 0; flex: 1; }
+
+.nav-section-title {
+  padding: 8px 24px 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 24px;
+  cursor: pointer;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  color: #fdf8f0;
+  background: rgba(255,255,255,0.05);
+}
+
+.nav-item.active {
+  color: var(--accent3);
+  border-left-color: var(--accent3);
+  background: rgba(232,160,80,0.08);
+}
+
+.nav-item .nav-icon { font-size: 14px; flex-shrink: 0; }
+
+.nav-sub {
+  padding: 5px 24px 5px 48px;
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.38);
+  cursor: pointer;
+  transition: color 0.2s;
+  display: block;
+  text-decoration: none;
+}
+
+.nav-sub:hover { color: rgba(255,255,255,0.7); }
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-left: 280px;
+  flex: 1;
+  max-width: calc(100% - 280px);
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink);
+  color: #fdf8f0;
+  padding: 80px 64px 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(181,71,42,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(232,160,80,0.1) 0%, transparent 50%);
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(181,71,42,0.2);
+  border: 1px solid rgba(181,71,42,0.4);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent3);
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  color: #fdf8f0;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent3);
+}
+
+.hero-desc {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.75;
+  margin-bottom: 36px;
+  max-width: 560px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-num {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent3);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── CONTENT SECTIONS ── */
+.content-area { padding: 0; }
+
+.chapter {
+  border-bottom: 1px solid var(--border2);
+}
+
+.chapter-header {
+  padding: 48px 64px 32px;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.chapter-header-left { flex: 1; }
+
+.chapter-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chapter-number::after {
+  content: '';
+  flex: 1;
+  max-width: 40px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.4;
+}
+
+.chapter-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.chapter-icon {
+  font-size: 3rem;
+  opacity: 0.6;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.chapter-body { padding: 48px 64px; }
+
+/* ── PROSE ── */
+.prose p {
+  font-size: 15.5px;
+  color: var(--ink2);
+  line-height: 1.85;
+  margin-bottom: 18px;
+}
+
+.prose p:last-child { margin-bottom: 0; }
+
+.prose strong { color: var(--ink); font-weight: 600; }
+
+.prose em { 
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic; 
+  color: var(--ink2);
+}
+
+/* ── SECTION TITLES ── */
+.section-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 40px 0 16px;
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: var(--accent);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.subsection-title {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 28px 0 12px;
+  padding-left: 16px;
+  border-left: 2px solid var(--border);
+}
+
+/* ── CALLOUT BOXES ── */
+.callout {
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.callout-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+
+.callout-content { flex: 1; }
+
+.callout-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.callout-body {
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.callout.definition {
+  background: rgba(30,77,122,0.06);
+  border: 1px solid rgba(30,77,122,0.2);
+}
+
+.callout.definition .callout-title { color: var(--blue); }
+.callout.definition .callout-body { color: var(--ink2); }
+
+.callout.analogy {
+  background: rgba(42,107,58,0.06);
+  border: 1px solid rgba(42,107,58,0.2);
+}
+
+.callout.analogy .callout-title { color: var(--green); }
+.callout.analogy .callout-body { color: var(--ink2); }
+
+.callout.exam {
+  background: rgba(181,71,42,0.06);
+  border: 1px solid rgba(181,71,42,0.25);
+}
+
+.callout.exam .callout-title { color: var(--accent); }
+.callout.exam .callout-body { color: var(--ink2); }
+
+.callout.warning {
+  background: rgba(90,45,122,0.06);
+  border: 1px solid rgba(90,45,122,0.2);
+}
+
+.callout.warning .callout-title { color: var(--purple); }
+.callout.warning .callout-body { color: var(--ink2); }
+
+.callout.fact {
+  background: rgba(26,107,107,0.06);
+  border: 1px solid rgba(26,107,107,0.2);
+}
+
+.callout.fact .callout-title { color: var(--teal); }
+.callout.fact .callout-body { color: var(--ink2); }
+
+/* ── TABLES ── */
+.table-wrap {
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+thead tr {
+  background: var(--ink);
+  color: #fdf8f0;
+}
+
+thead th {
+  padding: 13px 18px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+tbody td {
+  padding: 12px 18px;
+  border-top: 1px solid var(--border2);
+  color: var(--ink2);
+  line-height: 1.6;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) td { background: var(--bg2); }
+tbody tr:hover td { background: rgba(181,71,42,0.04); }
+
+td strong { color: var(--ink); }
+
+/* ── KEY POINTS LIST ── */
+.key-list {
+  list-style: none;
+  margin: 16px 0;
+}
+
+.key-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: var(--bg2);
+  border-radius: 10px;
+  border-left: 3px solid var(--accent);
+  font-size: 14.5px;
+  color: var(--ink2);
+  line-height: 1.7;
+}
+
+.key-list li .bullet {
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.key-list.green li { border-left-color: var(--green); }
+.key-list.green li .bullet { color: var(--green); }
+.key-list.blue li { border-left-color: var(--blue); }
+.key-list.blue li .bullet { color: var(--blue); }
+.key-list.purple li { border-left-color: var(--purple); }
+.key-list.purple li .bullet { color: var(--purple); }
+.key-list.teal li { border-left-color: var(--teal); }
+.key-list.teal li .bullet { color: var(--teal); }
+
+/* ── INFO CARDS ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.info-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.info-card:hover {
+  box-shadow: 0 4px 20px var(--shadow2);
+  transform: translateY(-2px);
+}
+
+.info-card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.info-card h4 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.info-card p {
+  font-size: 13px;
+  color: var(--ink3);
+  line-height: 1.65;
+}
+
+.info-card.green .info-card-tag { color: var(--green); }
+.info-card.blue .info-card-tag { color: var(--blue); }
+.info-card.purple .info-card-tag { color: var(--purple); }
+.info-card.teal .info-card-tag { color: var(--teal); }
+
+/* ── HIGHLIGHT INLINE ── */
+.hl { 
+  background: rgba(181,71,42,0.1);
+  color: var(--accent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.hl-g { background: rgba(42,107,58,0.1); color: var(--green); padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+.hl-b { background: rgba(30,77,122,0.1); color: var(--blue); padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+.hl-p { background: rgba(90,45,122,0.1); color: var(--purple); padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+.hl-t { background: rgba(26,107,107,0.1); color: var(--teal); padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+
+/* ── FORMULA BLOCK ── */
+.formula {
+  background: var(--ink);
+  color: var(--accent3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  padding: 14px 20px;
+  border-radius: 8px;
+  margin: 14px 0;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+.formula-block {
+  background: var(--ink);
+  color: #fdf8f0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 20px 24px;
+  border-radius: 10px;
+  margin: 16px 0;
+  line-height: 1.8;
+}
+
+.formula-block .comment { color: rgba(255,255,255,0.35); }
+.formula-block .value { color: var(--accent3); font-weight: 500; }
+.formula-block .label { color: rgba(255,255,255,0.65); }
+
+/* ── STEP BOXES ── */
+.steps { margin: 20px 0; }
+
+.step {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Libre Baskerville', serif;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.step-content { flex: 1; }
+
+.step-title {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.step-body {
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.7;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border2);
+  margin: 40px 0;
+}
+
+.divider-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0;
+  color: var(--ink4);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.divider-label::before, .divider-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── COMPARISON SPLIT ── */
+.compare-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.compare-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.compare-card-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.compare-card ul {
+  list-style: none;
+}
+
+.compare-card ul li {
+  font-size: 13.5px;
+  color: var(--ink2);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border2);
+  line-height: 1.6;
+  display: flex;
+  gap: 8px;
+}
+
+.compare-card ul li::before {
+  content: '·';
+  color: var(--accent);
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.compare-card ul li:last-child { border-bottom: none; }
+
+/* ── PROTEIN STRUCTURE LEVELS ── */
+.levels {
+  margin: 20px 0;
+  position: relative;
+  padding-left: 28px;
+}
+
+.levels::before {
+  content: '';
+  position: absolute;
+  left: 10px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--blue), var(--green), var(--purple));
+  border-radius: 2px;
+}
+
+.level-item {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.level-item::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+}
+
+.level-item:nth-child(2)::before { border-color: var(--blue); }
+.level-item:nth-child(3)::before { border-color: var(--green); }
+.level-item:nth-child(4)::before { border-color: var(--purple); }
+
+.level-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.level-item:nth-child(2) .level-label { color: var(--blue); }
+.level-item:nth-child(3) .level-label { color: var(--green); }
+.level-item:nth-child(4) .level-label { color: var(--purple); }
+
+.level-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.level-body {
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.75;
+}
+
+/* ── QUIZ SECTION ── */
+.quiz-section {
+  background: var(--ink);
+  padding: 48px 64px;
+  color: #fdf8f0;
+}
+
+.quiz-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fdf8f0;
+  margin-bottom: 8px;
+}
+
+.quiz-subtitle {
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  margin-bottom: 32px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+.quiz-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+  transition: border-color 0.2s;
+}
+
+.quiz-card:hover { border-color: rgba(232,160,80,0.3); }
+
+.quiz-q {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fdf8f0;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.quiz-q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent3);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.quiz-opt {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.quiz-opt:hover {
+  background: rgba(232,160,80,0.12);
+  border-color: rgba(232,160,80,0.4);
+  color: var(--accent3);
+}
+
+.quiz-opt.correct {
+  background: rgba(42,107,58,0.2);
+  border-color: rgba(42,107,58,0.5);
+  color: #6dcc85;
+}
+
+.quiz-opt.wrong {
+  background: rgba(181,71,42,0.2);
+  border-color: rgba(181,71,42,0.5);
+  color: #ff8070;
+}
+
+.quiz-explanation {
+  display: none;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  border-left: 3px solid var(--accent3);
+}
+
+.quiz-explanation.show { display: block; }
+
+/* ── SCROLLSPY ACTIVE CHAPTER ── */
+.chapter.in-view .chapter-number { color: var(--accent2); }
+
+/* ── MOBILE TOGGLE ── */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(181,71,42,0.4);
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── CHAPTER COLOR ACCENTS ── */
+.chapter[data-chapter="elements"] .section-title::before { background: var(--blue); }
+.chapter[data-chapter="elements"] .key-list li { border-left-color: var(--blue); }
+.chapter[data-chapter="elements"] .key-list li .bullet { color: var(--blue); }
+
+.chapter[data-chapter="bonds"] .section-title::before { background: var(--teal); }
+.chapter[data-chapter="bonds"] .key-list li { border-left-color: var(--teal); }
+.chapter[data-chapter="bonds"] .key-list li .bullet { color: var(--teal); }
+
+.chapter[data-chapter="water"] .section-title::before { background: var(--blue2); }
+.chapter[data-chapter="water"] .key-list li { border-left-color: var(--blue2); }
+.chapter[data-chapter="water"] .key-list li .bullet { color: var(--blue2); }
+
+.chapter[data-chapter="lipids"] .section-title::before { background: var(--purple); }
+.chapter[data-chapter="lipids"] .key-list li { border-left-color: var(--purple); }
+.chapter[data-chapter="lipids"] .key-list li .bullet { color: var(--purple); }
+
+.chapter[data-chapter="carbs"] .section-title::before { background: var(--green); }
+.chapter[data-chapter="carbs"] .key-list li { border-left-color: var(--green); }
+.chapter[data-chapter="carbs"] .key-list li .bullet { color: var(--green); }
+
+.chapter[data-chapter="proteins"] .section-title::before { background: var(--accent2); }
+.chapter[data-chapter="enzymes"] .section-title::before { background: var(--accent); }
+
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; max-width: 100%; }
+  .mobile-menu-btn { display: flex; }
+  .chapter-header { padding: 32px 24px 20px; position: static; }
+  .chapter-body { padding: 32px 24px; }
+  .hero { padding: 48px 24px; }
+  .compare-split { grid-template-columns: 1fr; }
+  .quiz-options { grid-template-columns: 1fr; }
+  .quiz-section { padding: 40px 24px; }
+  .hero-stats { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="label">📚 Study Guide</span>
+    <h2>Biology for Engineers — Complete Notes</h2>
+  </div>
+  <div class="sidebar-progress">
+    <div class="progress-label">Reading Progress</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">0% complete</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-title">Chapters</div>
+    <a class="nav-item" href="#ch-intro" onclick="closeMobile()"><span class="nav-icon">🎯</span> Introduction & Bioinspiration</a>
+    <a class="nav-item" href="#ch-elements" onclick="closeMobile()"><span class="nav-icon">⚛️</span> Elements of Life</a>
+    <a class="nav-sub" href="#ch-elements">Valency & Carbon</a>
+    <a class="nav-sub" href="#ch-bonds">Types of Bonds</a>
+    <a class="nav-item" href="#ch-water" onclick="closeMobile()"><span class="nav-icon">💧</span> Water & Phospholipids</a>
+    <a class="nav-sub" href="#ch-water">Properties of Water</a>
+    <a class="nav-sub" href="#ch-lipids">Lipids & Membranes</a>
+    <a class="nav-item" href="#ch-carbs" onclick="closeMobile()"><span class="nav-icon">🍬</span> Carbohydrates</a>
+    <a class="nav-sub" href="#ch-carbs">Mono / Di / Poly</a>
+    <a class="nav-sub" href="#ch-carbs">Starch, Glycogen, Cellulose</a>
+    <a class="nav-item" href="#ch-proteins" onclick="closeMobile()"><span class="nav-icon">🧬</span> Proteins</a>
+    <a class="nav-sub" href="#ch-proteins">Amino Acids</a>
+    <a class="nav-sub" href="#ch-proteins">4 Structural Levels</a>
+    <a class="nav-item" href="#ch-enzymes" onclick="closeMobile()"><span class="nav-icon">⚡</span> Enzymes</a>
+    <a class="nav-sub" href="#ch-enzymes">Activation Energy</a>
+    <a class="nav-sub" href="#ch-enzymes">Triose Phosphate Isomerase</a>
+    <a class="nav-item" href="#ch-quiz" onclick="closeMobile()"><span class="nav-icon">🎮</span> Practice Quiz</a>
+  </div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🧬 Biology for Engineers · CO1 + CO5</div>
+    <h1>Building Blocks<br>of <em>Life</em></h1>
+    <p class="hero-desc">A complete, exam-ready study guide covering all topics from your lecture notes — elements, bonds, water, lipids, carbohydrates, proteins, and enzymes. Explained clearly enough for anyone to understand and score marks.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Chapters</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">Major Topics</div></div>
+      <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Exam Tips</div></div>
+      <div class="stat"><div class="stat-num">20</div><div class="stat-label">Quiz Questions</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="content-area">
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CH 1: INTRO & BIOINSPIRATION -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch-intro" data-chapter="intro">
+  <div class="chapter-header">
+    <div class="chapter-header-left">
+      <div class="chapter-number">Chapter 01</div>
+      <div class="chapter-title">Introduction & Bioinspiration</div>
+    </div>
+    <div class="chapter-icon">🎯</div>
+  </div>
+  <div class="chapter-body">
+
+    <div class="prose">
+      <p>This course exists because of a powerful idea: <strong>nature is the best engineer.</strong> Over billions of years of evolution, living organisms have solved engineering problems — energy storage, structural strength, signal processing, self-repair, miniaturization — far more elegantly than humans have in mere centuries of technology. The purpose of studying biology as an engineer is not to become a biologist, but to <em>think like nature.</em></p>
+    </div>
+
+    <div class="section-title">Why Engineers Must Study Living Things</div>
+
+    <div class="prose">
+      <p>Living things have several extraordinary properties that no human-made machine has fully replicated:</p>
+    </div>
+
+    <ul class="key-list">
+      <li><span class="bullet">01</span><strong>Self-improvement through evolution:</strong> Organisms continuously improve their designs in response to environmental pressures. No car improves itself over time.</li>
+      <li><span class="bullet">02</span><strong>Sensing and responding:</strong> Organisms sense signals (heat, light, chemicals) and produce calibrated responses — think of how the pupil adjusts to light automatically.</li>
+      <li><span class="bullet">03</span><strong>Self-repair:</strong> A broken bone heals. A cut skin regenerates. No metal or plastic does this naturally.</li>
+      <li><span class="bullet">04</span><strong>Information storage and transfer:</strong> DNA stores all the instructions to build an organism in a molecule smaller than a human hair's width.</li>
+      <li><span class="bullet">05</span><strong>Molecular diversity from simplicity:</strong> At the molecular level, all life on Earth uses the same core molecules (DNA, proteins, sugars) — yet the diversity of life is staggering. A tiny change in organization makes all the difference.</li>
+    </ul>
+
+    <div class="callout analogy">
+      <div class="callout-icon">💡</div>
+      <div class="callout-content">
+        <div class="callout-title">The Engineering Analogy</div>
+        <div class="callout-body">Think of nature as having run a 3.8 billion year R&D program, with selection pressure as the quality control. Every organism that survived is a working prototype. Evolution = "survival of the fittest" = the best-designed organisms reproduce. Bioinspiration means: <em>reverse-engineer what evolution figured out.</em> Examples: Velcro (from burr seeds), sonar (from bats), lotus-effect coatings (from lotus leaves).</div>
+      </div>
+    </div>
+
+    <div class="callout exam">
+      <div class="callout-icon">⭐</div>
+      <div class="callout-content">
+        <div class="callout-title">Exam Tip</div>
+        <div class="callout-body">If asked "Why should engineers study biology?" — the answer covers 5 points: evolution (self-improvement), sensing/responding, self-repair, information storage/transfer, and molecular diversity. The course aims to understand the <em>logical principles</em> of biology from an engineering perspective.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CH 2: ELEMENTS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch-elements" data-chapter="elements">
+  <div class="chapter-header">
+    <div class="chapter-header-left">
+      <div class="chapter-number">Chapter 02</div>
+      <div class="chapter-title">Elements of Life & Their Bonding</div>
+    </div>
+    <div class="chapter-icon">⚛️</div>
+  </div>
+  <div class="chapter-body">
+
+    <div class="prose">
+      <p>Every living thing on Earth is made of atoms. But not all atoms equally. Life has selected a very specific set of elements — and for good reason. Understanding which elements and why gives you the foundation for all of biochemistry.</p>
+    </div>
+
+    <div class="section-title">Atomic Composition of the Cell</div>
+
+    <div class="prose">
+      <p>A typical living cell has the following elemental composition by number of atoms:</p>
+    </div>
+
+    <div class="formula-block">
+      <span class="label">H</span> = <span class="value">63%</span>  <span class="comment">// Hydrogen — most abundant</span><br>
+      <span class="label">O</span> = <span class="value">24%</span>  <span class="comment">// Oxygen</span><br>
+      <span class="label">C</span> = <span class="value">10%</span>  <span class="comment">// Carbon — the backbone</span><br>
+      <span class="label">N</span> = <span class="value">1.4%</span> <span class="comment">// Nitrogen — in proteins & DNA</span><br>
+      <span class="label">P</span> = <span class="value">0.2%</span> <span class="comment">// Phosphorus — in DNA, ATP</span><br>
+      <span class="label">S</span> = <span class="value">&lt;0.1%</span> <span class="comment">// Sulfur — in some amino acids</span><br>
+      <span class="comment">// Trace: Ca, Cl, K, Na, Mg, Mn, Fe, Se, I...</span>
+    </div>
+
+    <div class="callout fact">
+      <div class="callout-icon">🔬</div>
+      <div class="callout-content">
+        <div class="callout-title">Key Fact</div>
+        <div class="callout-body"><strong>C, N, O, H together make up more than 95% of all atoms in living organisms.</strong> These are also the lightest elements in the periodic table that can form stable, diverse molecules. As you go down the periodic table, elements get heavier — life chose lightweight for efficiency, just like an engineer chooses lightweight materials for a moving machine.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Why Carbon is the Backbone of Life</div>
+
+    <div class="prose">
+      <p>Carbon has a <span class="hl-b">valency of 4</span> — it has 4 unpaired electrons in its outer shell and can form 4 covalent bonds simultaneously. This gives carbon extraordinary versatility:</p>
+    </div>
+
+    <ul class="key-list blue">
+      <li><span class="bullet">▸</span>Carbon can bond with itself to form <strong>long chains, rings, branches</strong> — the backbone of all organic molecules.</li>
+      <li><span class="bullet">▸</span>It can form <strong>single, double, and triple bonds</strong> (C–C, C=C, C≡C) — each with different properties.</li>
+      <li><span class="bullet">▸</span>No element lighter than carbon in the periodic table has comparable bonding ability. Silicon (below carbon in the same group) can also form 4 bonds, but silicon-based molecules are far less versatile and heavier.</li>
+      <li><span class="bullet">▸</span>The engineering analogy: if you're building a moving machine (like a car), you want the lightest material that can hold complex structures. Carbon is that material for life.</li>
+    </ul>
+
+    <div class="section-title">Valency of Key Elements</div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Element</th><th>Symbol</th><th>Valency</th><th>Role in Life</th><th>Electronegativity</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hydrogen</strong></td><td>H</td><td>1</td><td>Part of almost all organic molecules; H-bonding in water</td><td>2.1</td></tr>
+          <tr><td><strong>Carbon</strong></td><td>C</td><td>4</td><td>Backbone of all organic molecules</td><td>2.5</td></tr>
+          <tr><td><strong>Nitrogen</strong></td><td>N</td><td>3 or 4</td><td>Found in amino acids (proteins) and nucleic acids (DNA/RNA)</td><td>3.0</td></tr>
+          <tr><td><strong>Oxygen</strong></td><td>O</td><td>2</td><td>Part of water, carbohydrates, fats; highly electronegative</td><td>3.5</td></tr>
+          <tr><td><strong>Phosphorus</strong></td><td>P</td><td>3 or 5</td><td>In DNA, RNA backbone; ATP (energy currency)</td><td>2.1</td></tr>
+          <tr><td><strong>Sulfur</strong></td><td>S</td><td>2, 4, or 6</td><td>In amino acids Cysteine & Methionine; disulfide bridges in proteins</td><td>2.5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout definition">
+      <div class="callout-icon">📖</div>
+      <div class="callout-content">
+        <div class="callout-title">Definition: Valency</div>
+        <div class="callout-body"><strong>Valency</strong> is the number of unpaired electrons in the outer orbital shell of an atom. These unpaired electrons are available to form bonds with other atoms. Think of it as the number of "hands" an atom has to grab other atoms. Carbon has 4 hands → can make incredibly diverse structures.</div>
+      </div>
+    </div>
+
+    <div class="divider-label">Molecular Composition of Life</div>
+
+    <div class="prose">
+      <p>The molecular composition of a living cell (by dry weight) breaks down as:</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="info-card blue">
+        <span class="info-card-tag">~80% of total</span>
+        <h4>💧 Water</h4>
+        <p>By far the most abundant molecule. The medium in which all biochemical reactions occur.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card-tag">50% of dry mass</span>
+        <h4>🧬 Proteins</h4>
+        <p>Most abundant class by dry weight. Do almost everything: catalysis, structure, transport, signaling.</p>
+      </div>
+      <div class="info-card green">
+        <span class="info-card-tag">15% of dry mass</span>
+        <h4>🍬 Carbohydrates</h4>
+        <p>Energy source and structural material (cellulose in plants).</p>
+      </div>
+      <div class="info-card purple">
+        <span class="info-card-tag">10% of dry mass</span>
+        <h4>🫧 Lipids & Fats</h4>
+        <p>Energy storage and membrane building. Hydrophobic.</p>
+      </div>
+      <div class="info-card teal">
+        <span class="info-card-tag">15% of dry mass</span>
+        <h4>🧪 Nucleic Acids</h4>
+        <p>DNA (information storage) and RNA (information transfer and translation).</p>
+      </div>
+    </div>
+
+    <div class="callout exam">
+      <div class="callout-icon">⭐</div>
+      <div class="callout-content">
+        <div class="callout-title">Exam Tip</div>
+        <div class="callout-body">Remember: H=63%, O=24%, C=10%, N=1.4%. C,N,O,H = 95%+. Carbon valency = 4 (the key to organic diversity). Valency = unpaired electrons in outer shell. Dry mass composition: 50% protein, 15% carbs, 15% nucleic acids, 10% lipids. Water = 80% of total cell mass.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CH 2b: BONDS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch-bonds" data-chapter="bonds">
+  <div class="chapter-header">
+    <div class="chapter-header-left">
+      <div class="chapter-number">Chapter 02b</div>
+      <div class="chapter-title">Types of Bonds & Interactions in Biological Systems</div>
+    </div>
+    <div class="chapter-icon">🔗</div>
+  </div>
+  <div class="chapter-body">
+
+    <div class="prose">
+      <p>How atoms stick together determines everything about how molecules behave. In biological systems, multiple types of bonds and interactions coexist — some strong and permanent, some weak and fleeting. Together they create the complexity of life. Understanding each bond type deeply is essential for understanding proteins, DNA, membranes, and enzymes.</p>
+    </div>
+
+    <div class="section-title">1. Covalent Bonds</div>
+
+    <div class="prose">
+      <p>A covalent bond is formed when two atoms <strong>share a pair of valence electrons</strong>. These are the strongest bonds in biology — they define the primary structure of all molecules.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Bond Type</th><th>Description</th><th>Energy to Break</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>C–C single bond</strong></td><td>One shared pair of electrons</td><td>80 Kcal/mol</td><td>All organic backbone chains</td></tr>
+          <tr><td><strong>C=C double bond</strong></td><td>Two shared pairs</td><td>&gt;80 Kcal/mol</td><td>Unsaturated fats, ring structures</td></tr>
+          <tr><td><strong>C≡C triple bond</strong></td><td>Three shared pairs</td><td>Even higher</td><td>Alkynes (less common in biology)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout analogy">
+      <div class="callout-icon">💡</div>
+      <div class="callout-content">
+        <div class="callout-title">How Strong are Covalent Bonds?</div>
+        <div class="callout-body">Random thermal energy fluctuations at room temperature = <strong>~0.6 Kcal/mol</strong>. A C–C covalent bond = <strong>80 Kcal/mol</strong>. That means covalent bonds are over 130× stronger than daily thermal noise. They are essentially permanent under biological conditions — unless something (like an enzyme) actively breaks them.</div>
+      </div>
+    </div>
+
+    <div class="section-title">2. Polar Covalent Bonds & Electronegativity</div>
+
+    <div class="prose">
+      <p>Not all covalent bonds share electrons equally. <strong>Electronegativity</strong> is the ability of an atom to attract shared electrons toward itself. When two atoms with different electronegativities share a bond, the electrons spend more time near the more electronegative atom — creating partial charges (δ+ and δ−). This is called a <span class="hl-t">polar covalent bond</span>.</p>
+    </div>
+
+    <div class="callout definition">
+      <div class="callout-icon">📖</div>
+      <div class="callout-content">
+        <div class="callout-title">The Polarity Rule</div>
+        <div class="callout-body"><strong>If the electronegativity difference between two bonded atoms is ≥ 0.5 → the bond is POLAR.</strong><br><br>
+        Examples:<br>
+        • C–H bond: C = 2.5, H = 2.1 → difference = 0.4 → <strong>NONPOLAR</strong> (why hydrocarbon tails of fats are nonpolar)<br>
+        • C–O bond: C = 2.5, O = 3.5 → difference = 1.0 → <strong>POLAR</strong><br>
+        • O–H bond: O = 3.5, H = 2.1 → difference = 1.4 → <strong>STRONGLY POLAR</strong> (this is why water is polar)</div>
+      </div>
+    </div>
+
+    <div class="section-title">3. Ionic Bonds</div>
+
+    <div class="prose">
+      <p>An ionic bond forms when one atom <strong>completely transfers an electron</strong> to another atom. The atom that loses an electron becomes positively charged (cation); the one that gains becomes negatively charged (anion). Opposite charges attract.</p>
+    </div>
+
+    <ul class="key-list teal">
+      <li><span class="bullet">▸</span>Ionic bonds are <strong>strong in dry conditions</strong> but <strong>break easily in water</strong> — water molecules surround the ions and shield the charges from each other.</li>
+      <li><span class="bullet">▸</span>Example: NaCl (table salt) — Na⁺ and Cl⁻ are ionically bonded. Add water → bond breaks → Na⁺ and Cl⁻ dissolve separately.</li>
+      <li><span class="bullet">▸</span>In proteins, ionic bonds between charged R groups (e.g., Lysine +, Glutamate −) help stabilize tertiary structure — but these are weak in the aqueous cell environment.</li>
+    </ul>
+
+    <div class="section-title">4. Hydrogen Bonds</div>
+
+    <div class="prose">
+      <p>A hydrogen bond forms when a hydrogen atom that is covalently bonded to a highly electronegative atom (O or N) is attracted to another electronegative atom nearby. The H carries a partial positive charge (δ+) and the O or N carries a partial negative charge (δ−).</p>
+    </div>
+
+    <div class="compare-split">
+      <div class="compare-card">
+        <div class="compare-card-title">⚡ Properties</div>
+        <ul>
+          <li>Individually very <strong>weak</strong> (~1–4 Kcal/mol)</li>
+          <li>Form and break rapidly (trillionths of a second)</li>
+          <li><strong>Collectively very strong</strong> when repeated many times</li>
+          <li>Directional — work best at specific angles</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card-title">🎯 Where They Matter</div>
+        <ul>
+          <li><strong>Water</strong> — all water molecules H-bonded to neighbours</li>
+          <li><strong>DNA</strong> — base pairs held by H-bonds (A–T: 2, G–C: 3)</li>
+          <li><strong>Protein secondary structure</strong> — α-helix and β-sheet</li>
+          <li><strong>Cellulose microfibrils</strong> — parallel chains held by H-bonds</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">5. Van der Waals Interactions</div>
+
+    <div class="prose">
+      <p>Even nonpolar molecules experience momentary fluctuations in electron distribution, creating <strong>temporary dipoles</strong> that induce dipoles in neighboring molecules. These very weak, transient attractions are called <span class="hl-p">van der Waals interactions</span>. They are individually negligible but cumulatively significant when many nonpolar groups pack together — as in the hydrophobic core of proteins.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Bond/Interaction</th><th>Strength</th><th>Broken by Water?</th><th>Biological Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Covalent</strong></td><td>Very Strong (80+ Kcal/mol)</td><td>No</td><td>Molecular backbone; peptide bonds; disulfide bridges</td></tr>
+          <tr><td><strong>Ionic</strong></td><td>Moderate (strong in dry)</td><td>Yes</td><td>Salt bridges in proteins; stabilize charged R groups</td></tr>
+          <tr><td><strong>Hydrogen</strong></td><td>Weak (1–4 Kcal/mol each)</td><td>Partially</td><td>Water, DNA base pairs, protein secondary/tertiary structure</td></tr>
+          <tr><td><strong>Hydrophobic</strong></td><td>Weak individually</td><td>N/A (caused by water exclusion)</td><td>Protein folding; lipid bilayer; enzyme active sites</td></tr>
+          <tr><td><strong>Van der Waals</strong></td><td>Very weak</td><td>No</td><td>Protein packing; enzyme-substrate fit</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout exam">
+      <div class="callout-icon">⭐</div>
+      <div class="callout-content">
+        <div class="callout-title">Exam Tip</div>
+        <div class="callout-body">Know all 5 bond/interaction types. The polarity rule: difference ≥ 0.5 → polar. C–H = nonpolar (0.4). C–O = polar (1.0). O–H = strongly polar (1.4). Ionic bonds break in water. Hydrogen bonds are individually weak but collectively crucial. Van der Waals = always present between any close atoms. Hydrophobic interaction is caused by water excluding nonpolar groups (they cluster together to minimize surface area).</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CH 3: WATER -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch-water" data-chapter="water">
+  <div class="chapter-header">
+    <div class="chapter-header-left">
+      <div class="chapter-number">Chapter 03</div>
+      <div class="chapter-title">Water — The Solvent of Life</div>
+    </div>
+    <div class="chapter-icon">💧</div>
+  </div>
+  <div class="chapter-body">
+
+    <div class="prose">
+      <p>Life on Earth began in water and spent the first 3 billion years of its existence entirely in water before colonising land. This is no coincidence. Water has a unique set of properties — all arising from its polar structure — that make it the perfect medium for life. No other molecule does what water does.</p>
+    </div>
+
+    <div class="section-title">The Root of Everything: Polarity</div>
+
+    <div class="prose">
+      <p>A water molecule (H₂O) has two O–H polar covalent bonds arranged at an angle (~104.5°). Because oxygen is much more electronegative than hydrogen (difference = 1.4), it pulls the shared electrons strongly toward itself, creating:</p>
+    </div>
+
+    <ul class="key-list blue">
+      <li><span class="bullet">δ−</span>A <strong>partial negative charge (δ−)</strong> on the oxygen atom</li>
+      <li><span class="bullet">δ+</span>A <strong>partial positive charge (δ+)</strong> on each hydrogen atom</li>
+    </ul>
+
+    <div class="prose">
+      <p>These partial charges allow water molecules to attract each other through <strong>hydrogen bonds</strong> — the δ+ hydrogen of one molecule attracted to the δ− oxygen of a neighbour. At any instant, every water molecule is hydrogen-bonded to up to 4 neighbours. Bonds form, break, and re-form constantly — each bond lasts only a few trillionths of a second, but there's always a network present.</p>
+    </div>
+
+    <div class="section-title">Property 1: Cohesion & Adhesion</div>
+
+    <div class="prose">
+      <p><span class="hl-b">Cohesion</span> = water molecules sticking to <em>each other</em> via hydrogen bonds. <span class="hl-b">Adhesion</span> = water sticking to <em>other surfaces</em> (like cell walls) via hydrogen bonds.</p>
+    </div>
+
+    <div class="callout analogy">
+      <div class="callout-icon">🌳</div>
+      <div class="callout-content">
+        <div class="callout-title">Real-World Example: Trees</div>
+        <div class="callout-body">How does a 100-metre-tall tree get water from its roots to its leaves? No pump is strong enough. Answer: <strong>cohesion + adhesion + evaporation.</strong> Water evaporates from leaf surfaces, pulling the water column upward. Cohesion keeps the water column intact (water molecules don't let go of each other). Adhesion keeps water clinging to the walls of narrow xylem vessels. The tallest trees can lift water over 100 metres — roughly ¼ the height of the Empire State Building.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Property 2: High Specific Heat</div>
+
+    <div class="prose">
+      <p><strong>Specific heat</strong> = the energy needed to raise 1 gram of a substance by 1°C. Water's specific heat = <span class="hl-b">1 cal/g·°C</span> — unusually high compared to almost any other substance. Why?</p>
+      <p>Because breaking hydrogen bonds requires absorbing energy. When you add heat to water, much of it goes into disrupting H-bonds rather than increasing molecular speed (temperature). Conversely, when water cools, forming new H-bonds releases energy as heat.</p>
+    </div>
+
+    <ul class="key-list blue">
+      <li><span class="bullet">▸</span>Large bodies of water (oceans, lakes) absorb enormous heat during the day/summer and release it slowly at night/winter → <strong>temperature stabilization</strong></li>
+      <li><span class="bullet">▸</span>Coastal areas have <strong>milder climates</strong> than inland areas for this reason</li>
+      <li><span class="bullet">▸</span>Ocean temperatures are stable → <strong>stable environment for marine life</strong></li>
+      <li><span class="bullet">▸</span>Water covers 71% of Earth's surface → keeps temperature fluctuations within limits that permit life</li>
+    </ul>
+
+    <div class="section-title">Property 3: Ice Floats (Lower Density as Solid)</div>
+
+    <div class="prose">
+      <p>Water is one of the very few substances that is <strong>less dense as a solid than as a liquid.</strong> When water freezes, each molecule forms hydrogen bonds with 4 neighbours in a rigid, spacious crystalline lattice. This crystal structure has more space between molecules than liquid water — so ice is less dense and floats.</p>
+    </div>
+
+    <div class="callout fact">
+      <div class="callout-icon">🧊</div>
+      <div class="callout-content">
+        <div class="callout-title">Why Floating Ice Matters for Life</div>
+        <div class="callout-body">If ice sank (as most solids do in their liquids), bodies of water would freeze from the bottom up, eventually freezing solid. Instead, ice forms at the surface and acts as an <strong>insulating layer</strong>, protecting the liquid water and aquatic life below. Fish, microbes, and other organisms survive winter because of this unique property of water.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Property 4: Water as the Universal Solvent</div>
+
+    <div class="prose">
+      <p>Water dissolves more substances than any other liquid. This is because its polar molecules can interact with and surround <strong>ionic and polar solutes</strong> — the partial negative oxygen attracts cations (Na⁺), the partial positive hydrogens attract anions (Cl⁻). The ions become surrounded by a "hydration shell" of water molecules and separate from each other.</p>
+      <p>Nearly every biochemical reaction in a cell happens in aqueous solution. Water is both the solvent and sometimes a reactant (in hydrolysis reactions). Without water as a solvent, cellular chemistry could not occur.</p>
+    </div>
+
+    <div class="section-title">Water & Life on Other Planets</div>
+
+    <div class="prose">
+      <p>When scientists search for life elsewhere in the universe, they focus first on planets that might have <strong>liquid water</strong>. To date, over 200 exoplanets have been found, with evidence of water vapour on some. In our solar system, <strong>Mars</strong> is the most studied: it has polar ice caps and evidence of ancient liquid water. Subsurface ice was photographed by the Mars Phoenix lander in 2008.</p>
+    </div>
+
+    <div class="callout exam">
+      <div class="callout-icon">⭐</div>
+      <div class="callout-content">
+        <div class="callout-title">Exam Tip — All 4 Properties of Water</div>
+        <div class="callout-body"><strong>All properties arise from polarity → H-bonding.</strong><br>
+        1. Cohesion (water-water) + Adhesion (water-other): enables water transport in plants<br>
+        2. High specific heat (1 cal/g·°C): stabilizes temperatures; coastal climates; marine life<br>
+        3. Ice less dense than liquid: ice floats; insulates aquatic life in winter<br>
+        4. Universal solvent: all biochemical reactions in aqueous solution</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CH 3b: LIPIDS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch-lipids" data-chapter="lipids">
+  <div class="chapter-header">
+    <div class="chapter-header-left">
+      <div class="chapter-number">Chapter 03b</div>
+      <div class="chapter-title">Lipids & Phospholipids</div>
+    </div>
+    <div class="chapter-icon">🫧</div>
+  </div>
+  <div class="chapter-body">
+
+    <div class="prose">
+      <p>Lipids are defined by one property: they are <strong>hydrophobic</strong> — they don't dissolve in water. This behavior stems from their molecular structure, which is mostly nonpolar C–H bonds. Despite this simple defining feature, lipids are extraordinarily diverse in function: energy storage, membrane building, waterproofing, pigments, and hormones.</p>
+    </div>
+
+    <div class="section-title">Fats: Structure & Energy Storage</div>
+
+    <div class="prose">
+      <p>A fat molecule (triglyceride or <strong>triacylglycerol</strong>) consists of <span class="hl-p">glycerol + 3 fatty acids</span>, each joined by an <strong>ester linkage</strong> formed via a dehydration reaction (a –OH from glycerol reacts with –COOH of fatty acid, releasing water).</p>
+    </div>
+
+    <div class="callout definition">
+      <div class="callout-icon">📖</div>
+      <div class="callout-content">
+        <div class="callout-title">Definition: Fatty Acid</div>
+        <div class="callout-body">A fatty acid is a long carbon skeleton (usually 16–18 carbons) with a <strong>carboxyl group (–COOH)</strong> at one end. The rest is a hydrocarbon chain (all C–H bonds). The nonpolar nature of C–H bonds (electronegativity difference = 0.4 → nonpolar) is why fats repel water. Water molecules hydrogen bond to each other and literally push the nonpolar fat molecules away.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Saturated vs. Unsaturated Fats</div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Saturated Fat</th><th>Unsaturated Fat</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Double bonds?</strong></td><td>None between C atoms</td><td>One or more C=C double bonds</td></tr>
+          <tr><td><strong>Hydrogen atoms</strong></td><td>Maximum — "saturated" with H</td><td>Fewer H — one missing per double-bonded C</td></tr>
+          <tr><td><strong>Chain shape</strong></td><td>Straight — can pack tightly</td><td>Kinked (cis double bond causes bend)</td></tr>
+          <tr><td><strong>State at room temp</strong></td><td>Solid (tight packing → high melting point)</td><td>Liquid (kinks prevent tight packing → low melting point)</td></tr>
+          <tr><td><strong>Examples</strong></td><td>Butter, lard, beef fat, coconut oil</td><td>Olive oil, sunflower oil, fish oil</td></tr>
+          <tr><td><strong>Health</strong></td><td>Associated with cardiovascular risk at high intake</td><td>Generally healthier (especially unsaturated)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout analogy">
+      <div class="callout-icon">💡</div>
+      <div class="callout-content">
+        <div class="callout-title">The Kink Analogy</div>
+        <div class="callout-body">Imagine stacking straight rulers vs. bent rulers. Straight rulers (saturated fats) stack perfectly and pack densely → solid at room temperature (like butter). Bent rulers (unsaturated fats) can't pack as efficiently → remain fluid at room temperature (like olive oil). The "bend" in unsaturated fats is caused by the <strong>cis configuration</strong> of the C=C double bond.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Phospholipids: Building Cell Membranes</div>
+
+    <div class="prose">
+      <p>A phospholipid is similar to a fat but with one crucial difference: instead of a 3rd fatty acid, the glycerol's 3rd –OH group is joined to a <strong>phosphate group</strong> (which carries a negative charge). Small polar or charged molecules can be further attached to the phosphate, creating variety.</p>
+    </div>
+
+    <div class="compare-split">
+      <div class="compare-card">
+        <div class="compare-card-title">💧 Hydrophilic Head</div>
+        <ul>
+          <li>The <strong>phosphate group</strong> + attached polar molecule</li>
+          <li>Negatively charged → attracted to water</li>
+          <li>Points <strong>outward</strong> in a bilayer (toward aqueous environment)</li>
+          <li>"Water-loving" end</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card-title">🔥 Hydrophobic Tails</div>
+        <ul>
+          <li>Two <strong>fatty acid chains</strong></li>
+          <li>Nonpolar C–H bonds → repels water</li>
+          <li>Points <strong>inward</strong> in a bilayer (away from water)</li>
+          <li>"Water-fearing" end</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>Phospholipids are <span class="hl-p">amphipathic</span> — meaning they have both a hydrophilic part AND a hydrophobic part. When placed in water, they spontaneously self-assemble into a <strong>bilayer</strong>: hydrophilic heads on both outer surfaces (in contact with water), hydrophobic tails sandwiched in the middle (away from water).</p>
+    </div>
+
+    <div class="callout fact">
+      <div class="callout-icon">🔬</div>
+      <div class="callout-content">
+        <div class="callout-title">The Cell Membrane = Phospholipid Bilayer</div>
+        <div class="callout-body">Every cell in your body is surrounded by a phospholipid bilayer. This bilayer:<br>
+        • Forms the <strong>boundary</strong> between the cell interior and exterior<br>
+        • Is selectively permeable — small nonpolar molecules (O₂, CO₂) pass freely; large or charged molecules cannot cross without protein channels<br>
+        • Creates the <strong>electrochemical gradients</strong> needed for nerve signals, ATP synthesis, etc.<br>
+        • <strong>Cells literally could not exist without phospholipids.</strong></div>
+      </div>
+    </div>
+
+    <div class="callout exam">
+      <div class="callout-icon">⭐</div>
+      <div class="callout-content">
+        <div class="callout-title">Exam Tip</div>
+        <div class="callout-body">Fat = glycerol + 3 fatty acids (triacylglycerol). Phospholipid = glycerol + 2 fatty acids + phosphate group. Amphipathic = has both hydrophilic and hydrophobic parts. Bilayer: heads OUT (face water), tails IN (face each other). Saturated = solid (straight chain, packs tight). Unsaturated = liquid (cis double bond kink, can't pack). Self-assembly of phospholipids in water is spontaneous — driven by hydrophobic effect.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CH 4: CARBOHYDRATES -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch-carbs" data-chapter="carbs">
+  <div class="chapter-header">
+    <div class="chapter-header-left">
+      <div class="chapter-number">Chapter 04</div>
+      <div class="chapter-title">Carbohydrates — Sugars & Their Polymers</div>
+    </div>
+    <div class="chapter-icon">🍬</div>
+  </div>
+  <div class="chapter-body">
+
+    <div class="prose">
+      <p>Carbohydrates are one of the four major classes of biological macromolecules. They include simple sugars and large polymers of sugars. Their roles are dual and critical: <strong>energy supply</strong> (glucose powers cells; starch and glycogen are energy banks) and <strong>structural support</strong> (cellulose builds plant cell walls; chitin builds insect exoskeletons). The molecular formula of most carbohydrates follows the pattern <span class="hl-g">(CH₂O)ₙ</span> — hence the name "carbo-hydrate" (carbon + water).</p>
+    </div>
+
+    <div class="section-title">Level 1: Monosaccharides — The Single Sugars</div>
+
+    <div class="prose">
+      <p>Monosaccharides (Greek: <em>monos</em> = single, <em>sacchar</em> = sugar) are the simplest carbohydrates and the monomers from which all larger carbohydrates are built. All monosaccharides have:</p>
+    </div>
+
+    <ul class="key-list green">
+      <li><span class="bullet">▸</span>A <strong>carbonyl group (C=O)</strong> — either as an aldehyde at the end of the chain (aldose sugars) or a ketone within the chain (ketose sugars)</li>
+      <li><span class="bullet">▸</span>Multiple <strong>hydroxyl groups (–OH)</strong> attached to the carbon skeleton</li>
+      <li><span class="bullet">▸</span>A molecular formula that is a multiple of CH₂O</li>
+    </ul>
+
+    <div class="section-title">Classifying Monosaccharides</div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Criterion</th><th>Category 1</th><th>Category 2</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Carbonyl position</strong></td>
+            <td><strong>Aldose</strong> — carbonyl group at the END of the carbon skeleton (forms an aldehyde –CHO)</td>
+            <td><strong>Ketose</strong> — carbonyl group WITHIN the carbon skeleton (forms a ketone C=O)</td>
+            <td>Glucose = aldose; Fructose = ketose</td>
+          </tr>
+          <tr>
+            <td><strong>Carbon chain length</strong></td>
+            <td><strong>Triose (3C)</strong>: Glyceraldehyde (aldose), Dihydroxyacetone (ketose)<br><strong>Pentose (5C)</strong>: Ribose (RNA), Ribulose (photosynthesis)</td>
+            <td><strong>Hexose (6C)</strong>: Glucose, Fructose, Galactose — all have formula C₆H₁₂O₆</td>
+            <td>Glucose, Galactose = energy sources; Fructose = fruit sugar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout definition">
+      <div class="callout-icon">📖</div>
+      <div class="callout-content">
+        <div class="callout-title">Glucose — The Central Sugar</div>
+        <div class="callout-body">Glucose (C₆H₁₂O₆) is the most important monosaccharide. It is the primary fuel for cellular respiration. In solution, glucose exists mostly as a ring (not a straight chain). The ring forms when the carbonyl group at C1 bonds to the –OH at C5. The position of the –OH at C1 after ring formation creates two forms:<br>
+        • <strong>α-glucose</strong>: –OH at C1 is BELOW the ring plane<br>
+        • <strong>β-glucose</strong>: –OH at C1 is ABOVE the ring plane<br>
+        This tiny difference has enormous consequences for polymers made from each form!</div>
+      </div>
+    </div>
+
+    <div class="section-title">Level 2: Disaccharides — Double Sugars</div>
+
+    <div class="prose">
+      <p>A disaccharide is formed when two monosaccharides are joined by a <span class="hl-g">glycosidic linkage</span> — a covalent bond formed via a <strong>dehydration reaction</strong> (one –OH from each sugar reacts, releasing a water molecule and forming a bond).</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Disaccharide</th><th>Components</th><th>Linkage</th><th>Where Found</th><th>Common Name</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Maltose</strong></td><td>Glucose + Glucose</td><td>1→4 α-glycosidic</td><td>Germinating grains; used in brewing beer</td><td>Malt sugar</td></tr>
+          <tr><td><strong>Sucrose</strong></td><td>Glucose + Fructose</td><td>1→2 α-glycosidic</td><td>Plants transport carbs as sucrose (leaves → roots)</td><td>Table sugar</td></tr>
+          <tr><td><strong>Lactose</strong></td><td>Glucose + Galactose</td><td>1→4 β-glycosidic</td><td>Milk and dairy products</td><td>Milk sugar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-content">
+        <div class="callout-title">Dehydration vs. Hydrolysis</div>
+        <div class="callout-body"><strong>Dehydration reaction</strong> (condensation): removes water → BUILDS glycosidic bonds → assembles polymers.<br>
+        <strong>Hydrolysis</strong>: adds water → BREAKS glycosidic bonds → breaks polymers back into monomers.<br>
+        These two reactions are opposites and underlie all polymer assembly and breakdown in biology.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Level 3: Polysaccharides — The Polymers</div>
+
+    <div class="prose">
+      <p>Polysaccharides are macromolecules — polymers of hundreds to thousands of monosaccharides joined by glycosidic linkages. Their architecture (which sugars, which linkages, branched or unbranched) determines their function entirely.</p>
+    </div>
+
+    <div class="subsection-title">Storage Polysaccharides</div>
+
+    <div class="card-grid">
+      <div class="info-card green">
+        <span class="info-card-tag">Plants</span>
+        <h4>Starch</h4>
+        <p>Stored in plastids (chloroplasts) as granules. Made of α-glucose monomers joined by 1→4 linkages. Two forms:<br><br>
+        <strong>Amylose</strong>: unbranched, helical coil<br>
+        <strong>Amylopectin</strong>: branched at 1→6 points<br><br>
+        Released by hydrolysis when glucose is needed. Major dietary sources: potatoes, wheat, corn, rice.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card-tag">Animals</span>
+        <h4>Glycogen</h4>
+        <p>Stored in liver and muscle cells. Made of α-glucose, like starch, but <strong>much more heavily branched</strong> than amylopectin (branches every 8–12 glucose units vs every 24–30 in amylopectin).<br><br>
+        More branching = more free ends = faster hydrolysis = faster glucose release when energy demands spike.</p>
+      </div>
+    </div>
+
+    <div class="subsection-title">Structural Polysaccharides</div>
+
+    <div class="section-title">The Critical α vs β Distinction — Starch vs Cellulose</div>
+
+    <div class="prose">
+      <p>Both starch and cellulose are polymers of glucose. Both use 1→4 glycosidic linkages. Yet one you can eat and digest; the other you cannot. The only difference? <strong>α-glucose vs. β-glucose.</strong></p>
+    </div>
+
+    <div class="compare-split">
+      <div class="compare-card">
+        <div class="compare-card-title">🌾 Starch — α-glucose</div>
+        <ul>
+          <li>All glucose in <strong>α configuration</strong> (–OH at C1 below ring)</li>
+          <li>Adjacent units in <strong>same orientation</strong></li>
+          <li>1→4 α-linkages → molecule curves → <strong>helical coil</strong></li>
+          <li>Digestible by humans (α-amylase enzyme breaks α-linkages)</li>
+          <li>Function: <strong>energy storage</strong></li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card-title">🌿 Cellulose — β-glucose</div>
+        <ul>
+          <li>All glucose in <strong>β configuration</strong> (–OH at C1 above ring)</li>
+          <li>Every alternate unit is <strong>flipped 180°</strong></li>
+          <li>1→4 β-linkages → molecule stays <strong>perfectly straight</strong></li>
+          <li>NOT digestible by most animals (no enzyme for β-linkages)</li>
+          <li>Parallel straight chains H-bond together → <strong>microfibrils</strong></li>
+          <li>Function: <strong>structural strength</strong> in plant cell walls</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout fact">
+      <div class="callout-icon">🌍</div>
+      <div class="callout-content">
+        <div class="callout-title">Cellulose — The Most Abundant Organic Molecule on Earth</div>
+        <div class="callout-body">Plants produce approximately <strong>10¹⁴ kg (100 billion tons) of cellulose per year</strong>. It is the most abundant organic compound on Earth. Cellulose microfibrils (parallel cellulose molecules held by H-bonds, ~80 molecules per microfibril) are grouped into cable-like structures that give plant cell walls incredible tensile strength. Cellulose is also the major constituent of paper and the only component of cotton.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Cellulose as Dietary Fiber</div>
+
+    <div class="prose">
+      <p>Humans cannot digest cellulose — we lack cellulase enzymes. However, cellulose in food (labeled as "insoluble fiber") still plays an important role:</p>
+    </div>
+
+    <ul class="key-list green">
+      <li><span class="bullet">▸</span>Cellulose <strong>abrades the walls of the digestive tract</strong>, stimulating mucus secretion that lubricates the passage of food</li>
+      <li><span class="bullet">▸</span>It adds <strong>bulk to feces</strong>, aiding elimination and preventing constipation</li>
+      <li><span class="bullet">▸</span>Despite not being a nutrient, it is an important part of a <strong>healthy diet</strong></li>
+      <li><span class="bullet">▸</span>Fresh fruits, vegetables, and whole grains are rich in cellulose</li>
+    </ul>
+
+    <div class="callout analogy">
+      <div class="callout-icon">🐄</div>
+      <div class="callout-content">
+        <div class="callout-title">Cows, Termites & Gut Microbes</div>
+        <div class="callout-body">Cows and termites CAN "eat" cellulose — but not because they have cellulase enzymes. They harbor cellulose-digesting microorganisms (prokaryotes and protists) in their digestive systems. The cow/termite provides a home for the microbes; the microbes break cellulose into glucose and other compounds that nourish the host. This is a beautiful example of <strong>symbiosis</strong> — life relying on other life to extract energy from the most abundant organic molecule on Earth.</div>
+      </div>
+    </div>
+
+    <div class="callout exam">
+      <div class="callout-icon">⭐</div>
+      <div class="callout-content">
+        <div class="callout-title">Exam Tip — Master Summary</div>
+        <div class="callout-body">
+          <strong>Formula:</strong> (CH₂O)ₙ<br>
+          <strong>Monosaccharides:</strong> Aldose (C=O at end) vs Ketose (C=O within). Hexoses = 6C = C₆H₁₂O₆<br>
+          <strong>Disaccharides:</strong> Sucrose (glucose+fructose, table sugar), Lactose (glucose+galactose, milk sugar), Maltose (glucose+glucose, beer)<br>
+          <strong>Starch:</strong> α-glucose, 1→4 linkages, helical, digestible, energy storage<br>
+          <strong>Glycogen:</strong> α-glucose, MORE branched than starch, animal energy storage (liver & muscle)<br>
+          <strong>Cellulose:</strong> β-glucose, 1→4 linkages, straight, NOT digestible, structural (plant cell walls)<br>
+          <strong>Key:</strong> α vs β = tiny molecular difference → completely different properties
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CH 5: PROTEINS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch-proteins" data-chapter="proteins">
+  <div class="chapter-header">
+    <div class="chapter-header-left">
+      <div class="chapter-number">Chapter 05</div>
+      <div class="chapter-title">Proteins & Their Structures</div>
+    </div>
+    <div class="chapter-icon">🧬</div>
+  </div>
+  <div class="chapter-body">
+
+    <div class="prose">
+      <p>If carbohydrates are life's fuel and building materials, proteins are life's <em>workforce.</em> They are the most abundant biological macromolecules, occurring in all parts of the cell. The word <em>protein</em> comes from the Greek <em>proteios</em> — meaning "first" or "primary." This is apt: proteins make up <span class="hl">more than 50% of the dry mass of most cells</span> and are involved in virtually every biological process.</p>
+      <p>Proteins range in size from small peptides (a few amino acids) to enormous polymers with molecular weights in the millions. Their functions are staggeringly diverse: enzymes (catalysis), antibodies (immune defense), hemoglobin (transport), collagen (structural support), actin and myosin (movement), hormones (signaling), and receptors (sensing).</p>
+    </div>
+
+    <div class="section-title">The Building Blocks: Amino Acids</div>
+
+    <div class="prose">
+      <p>All proteins are built from the same 20 amino acids. Every amino acid shares the same core structure but differs in its <strong>R group (side chain)</strong>:</p>
+    </div>
+
+    <div class="formula-block">
+      Central α-carbon bonded to:<br>
+      <span class="value">  –NH₂</span>   <span class="comment">// amino group (basic)</span><br>
+      <span class="value">  –COOH</span>  <span class="comment">// carboxyl group (acidic)</span><br>
+      <span class="value">  –H</span>     <span class="comment">// hydrogen</span><br>
+      <span class="value">  –R</span>     <span class="comment">// side chain (R group) — unique to each amino acid</span>
+    </div>
+
+    <div class="prose">
+      <p>The R group determines each amino acid's chemical properties: its size, shape, charge, and whether it is attracted to or repelled by water. Amino acids are linked into chains via <strong>peptide bonds</strong> — covalent bonds formed between the –COOH of one amino acid and the –NH₂ of the next, with water released (dehydration).</p>
+    </div>
+
+    <div class="subsection-title">The 20 Amino Acids by R Group Type</div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Amino Acids</th><th>R Group Property</th><th>Biological Significance</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nonpolar, Aliphatic</strong></td><td>Glycine (G), Alanine (A), Proline (P), Valine (V), Leucine (L), Isoleucine (I), Methionine (M)</td><td>Hydrophobic (repel water)</td><td>Found in the hydrophobic core of folded proteins; contribute to tertiary structure via hydrophobic interactions</td></tr>
+          <tr><td><strong>Aromatic</strong></td><td>Phenylalanine (F), Tyrosine (Y), Tryptophan (W)</td><td>Mostly hydrophobic; ring structures; some can absorb UV light</td><td>Protein core packing; Tryptophan gives proteins UV absorbance at 280nm (used in lab measurements)</td></tr>
+          <tr><td><strong>Polar, Uncharged</strong></td><td>Serine (S), Threonine (T), Cysteine (C), Asparagine (N), Glutamine (Q)</td><td>Can form H-bonds; hydrophilic</td><td>Enzyme active sites; H-bonds in tertiary structure; Cysteine forms disulfide bridges (–S–S–)</td></tr>
+          <tr><td><strong>Positively Charged (Basic)</strong></td><td>Lysine (K), Arginine (R), Histidine (H)</td><td>Carry + charge at physiological pH</td><td>Ionic bonds with negative R groups; stabilize phosphate groups (negative) — e.g., Lysine12 in TPI binds the phosphate of G3P</td></tr>
+          <tr><td><strong>Negatively Charged (Acidic)</strong></td><td>Aspartate (D), Glutamate (E)</td><td>Carry − charge at physiological pH</td><td>Ionic bonds with positive R groups; acid-base catalysis in enzyme active sites — e.g., Glutamate165 in TPI acts as proton acceptor</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-content">
+        <div class="callout-title">Key Terminology</div>
+        <div class="callout-body">
+          <strong>Peptide:</strong> Short chain of amino acids (&lt;20–30) linked by peptide bonds, with a defined sequence<br>
+          <strong>Polypeptide:</strong> Longer chain (up to ~4000 amino acid residues)<br>
+          <strong>Protein:</strong> A polypeptide (or complex of polypeptides) with a well-defined 3D structure and function
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">The Four Levels of Protein Structure</div>
+
+    <div class="prose">
+      <p>Protein structure is organized into four hierarchical levels. Each level builds on the one below it. The final 3D shape of a protein determines its function — change the shape, change or destroy the function.</p>
+    </div>
+
+    <div class="levels">
+
+      <div class="level-item">
+        <div class="level-label">Primary Structure · 1°</div>
+        <div class="level-title">The Amino Acid Sequence</div>
+        <div class="level-body">
+          <p>The primary structure is simply the <strong>linear sequence of amino acids</strong> in a polypeptide chain, held together by <strong>peptide bonds</strong> (covalent). This sequence is dictated by the gene encoding the protein.</p>
+          <p>Why does sequence matter so much? Because the sequence determines how the chain will fold at higher levels. Even a single amino acid change can drastically alter a protein's function. Classic example: <strong>sickle cell anemia</strong> — one amino acid substitution (Val for Glu at position 6 in hemoglobin β-chain) changes the protein's shape and causes red blood cells to become rigid and sickle-shaped.</p>
+          <div class="callout exam" style="margin-top:14px">
+            <div class="callout-icon">⭐</div>
+            <div class="callout-content">
+              <div class="callout-title">Exam Tip</div>
+              <div class="callout-body">Primary structure = sequence. The bond = peptide bond (covalent, very strong). Determined by DNA. Any change in sequence = different protein with potentially different function.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="level-item">
+        <div class="level-label">Secondary Structure · 2°</div>
+        <div class="level-title">Local Folding Patterns: α-Helix & β-Pleated Sheet</div>
+        <div class="level-body">
+          <p>Secondary structure arises from <strong>hydrogen bonds between backbone atoms</strong> — specifically between the C=O (partial negative) and N–H (partial positive) groups of the polypeptide backbone. Note: these are NOT interactions between R groups — the R groups play no role at this level.</p>
+          
+          <div class="subsection-title">α-Helix</div>
+          <p>The polypeptide backbone coils into a right-handed helix. Each turn of the helix is held by <strong>H-bonds between the C=O of one amino acid and the N–H of the amino acid 4 positions further down the chain</strong>. The R groups stick outward from the helix. The α-helix is a delicate but stable structure found in many proteins (hemoglobin subunits are primarily α-helical).</p>
+
+          <div class="subsection-title">β-Pleated Sheet</div>
+          <p>Two or more segments of the polypeptide chain lie side-by-side (called <strong>β-strands</strong>) and are connected by H-bonds between their backbones. The chains can run parallel or antiparallel. The structure looks like pleated paper — hence the name. β-sheets are found in structural proteins (silk) and at enzyme active sites.</p>
+
+          <div class="subsection-title">Turns & Loops</div>
+          <p><strong>Turns</strong> are short (3–4 residues), U-shaped structures on the protein surface that redirect the polypeptide backbone back toward the interior. Stabilized by one H-bond between end residues. <strong>Glycine</strong> (tiny R group = no steric clash) and <strong>Proline</strong> (rigid ring structure = built-in bend) are commonly found in turns. Turns allow large proteins to fold into compact globular structures.</p>
+          <p><strong>Loops</strong> are longer, irregular bends with no single well-defined structure. They can take many conformations and are often found on the protein surface where they can interact with ligands or other proteins.</p>
+
+          <div class="callout exam" style="margin-top:14px">
+            <div class="callout-icon">⭐</div>
+            <div class="callout-content">
+              <div class="callout-title">Exam Tip</div>
+              <div class="callout-body">Secondary = H-bonds on BACKBONE (not R groups). α-helix = coil (H-bond every 4th amino acid). β-sheet = side-by-side strands (H-bonds between parallel backbones). Turns = U-shaped, Gly + Pro common. Loops = flexible, longer bends.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="level-item">
+        <div class="level-label">Tertiary Structure · 3°</div>
+        <div class="level-title">Overall 3D Shape of the Polypeptide</div>
+        <div class="level-body">
+          <p>Tertiary structure is the <strong>overall 3-dimensional shape</strong> of the whole polypeptide, resulting from interactions between <strong>R groups (side chains)</strong> of amino acids that may be far apart in the primary sequence but come close in 3D space.</p>
+
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Interaction</th><th>Between</th><th>Nature</th><th>Effect</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Hydrophobic interaction</strong></td><td>Nonpolar R groups</td><td>Caused by water exclusion; not truly an attraction</td><td>Nonpolar R groups cluster in protein CORE, away from water → protein folds inward</td></tr>
+                <tr><td><strong>Van der Waals</strong></td><td>Nonpolar R groups (once close)</td><td>Very weak transient forces</td><td>Help hold nonpolar core together</td></tr>
+                <tr><td><strong>Hydrogen bonds</strong></td><td>Polar R groups</td><td>Weak individually</td><td>Contribute to tertiary shape; important at active sites</td></tr>
+                <tr><td><strong>Ionic bonds (salt bridges)</strong></td><td>Oppositely charged R groups (e.g., Lys+ and Glu−)</td><td>Weak in aqueous environment</td><td>Contribute to specific folding geometry</td></tr>
+                <tr><td><strong>Disulfide bridges (–S–S–)</strong></td><td>Two Cysteine residues (–SH groups)</td><td><strong>Covalent (strong!)</strong></td><td>Lock parts of the protein together permanently; critical for extracellular proteins (e.g., antibodies, insulin)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout analogy">
+            <div class="callout-icon">💡</div>
+            <div class="callout-content">
+              <div class="callout-title">The Folding Analogy</div>
+              <div class="callout-body">Imagine the polypeptide as a long, flexible necklace dropped into water. The "oily" (hydrophobic) beads hate water and rush to huddle in the center. The "water-loving" (hydrophilic) beads stay on the outside. This spontaneous rearrangement is the driving force of protein folding. Disulfide bridges are like staples that lock the final shape in place.</div>
+            </div>
+          </div>
+
+          <div class="callout exam" style="margin-top:14px">
+            <div class="callout-icon">⭐</div>
+            <div class="callout-content">
+              <div class="callout-title">Exam Tip</div>
+              <div class="callout-body">Tertiary = overall 3D shape. Stabilized by R group interactions: hydrophobic (core), Van der Waals (core), H-bonds (polar R), ionic bonds (charged R), disulfide bridges (Cys–Cys, only COVALENT one). Hydrophobic interaction = most important driving force for folding. Disulfide bridges = strongest (covalent) — found in extracellular proteins.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="level-item">
+        <div class="level-label">Quaternary Structure · 4°</div>
+        <div class="level-title">Multi-Subunit Assembly</div>
+        <div class="level-body">
+          <p>Many functional proteins consist of more than one polypeptide chain. Quaternary structure is the overall protein structure that results from the <strong>association of two or more polypeptide subunits</strong>, held together by the same types of interactions as tertiary structure (hydrophobic, H-bonds, ionic, disulfide).</p>
+
+          <div class="card-grid">
+            <div class="info-card">
+              <span class="info-card-tag">Fibrous Protein</span>
+              <h4>Collagen</h4>
+              <p>Three identical polypeptide chains, each in a left-handed helix, intertwined into a right-handed <strong>triple helix</strong>. This gives collagen fibers extraordinary tensile strength.<br><br>
+              Found in: skin, bone, tendons, ligaments, cartilage, blood vessel walls.<br><br>
+              <strong>Collagen accounts for 40% of the total protein in a human body.</strong></p>
+            </div>
+            <div class="info-card">
+              <span class="info-card-tag">Globular Protein</span>
+              <h4>Hemoglobin</h4>
+              <p>Four polypeptide subunits: <strong>2α subunits + 2β subunits</strong>. Each subunit is primarily α-helical in secondary structure.<br><br>
+              Each subunit contains a non-protein <strong>heme group</strong> with an iron atom (Fe²⁺) at its center that binds one O₂ molecule.<br><br>
+              So hemoglobin can carry <strong>4 O₂ molecules simultaneously.</strong></p>
+            </div>
+          </div>
+
+          <div class="callout exam" style="margin-top:14px">
+            <div class="callout-icon">⭐</div>
+            <div class="callout-content">
+              <div class="callout-title">Exam Tip</div>
+              <div class="callout-body">Quaternary = multiple subunits. Collagen = 3 helical chains → triple helix → structural protein → 40% of body protein. Hemoglobin = 2α + 2β subunits → each has a heme group with iron → binds O₂ → transport protein. Both are classic exam examples of quaternary structure.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end levels -->
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CH 6: ENZYMES -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch-enzymes" data-chapter="enzymes">
+  <div class="chapter-header">
+    <div class="chapter-header-left">
+      <div class="chapter-number">Chapter 06</div>
+      <div class="chapter-title">Enzymes — Nature's Perfect Catalysts</div>
+    </div>
+    <div class="chapter-icon">⚡</div>
+  </div>
+  <div class="chapter-body">
+
+    <div class="prose">
+      <p>Enzymes are the most remarkable and specialized proteins in existence. They have <strong>extraordinary catalytic power</strong> — often far greater than any synthetic catalyst — and extreme <strong>specificity</strong> for their substrates. They operate in aqueous solution at mild temperature and pH conditions. They are at the heart of every metabolic pathway in every living organism.</p>
+      <p>The word "enzyme" comes from the Latin word <em>Zyma</em>, meaning yeast — because <strong>Edward Buchner</strong> (Nobel Prize in Chemistry, 1907) showed that fermentation (converting sugars to alcohol) could be done with cell-free yeast juice, proving it was due to chemical molecules, not living cells.</p>
+    </div>
+
+    <div class="section-title">What Enzymes Do — and Don't Do</div>
+
+    <div class="compare-split">
+      <div class="compare-card">
+        <div class="compare-card-title">✅ What Enzymes DO</div>
+        <ul>
+          <li><strong>Reduce activation energy (Ea)</strong> — the energy barrier that must be overcome for a reaction to proceed</li>
+          <li><strong>Stabilize the transition state</strong> — the highest-energy intermediate between reactants and products</li>
+          <li><strong>Prevent side reactions</strong> — highly specific, only catalyze the intended reaction</li>
+          <li><strong>Speed up the reaction</strong> — dramatically, sometimes by a factor of 10¹⁷</li>
+          <li><strong>Work repeatedly</strong> — not consumed in the reaction; can be used over and over</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card-title">❌ What Enzymes DON'T DO</div>
+        <ul>
+          <li><strong>Do NOT change ΔG°</strong> — the thermodynamic favorability of a reaction is fixed; enzymes cannot make an unfavorable reaction favorable</li>
+          <li><strong>Do NOT change the equilibrium</strong> — they speed up both forward and reverse reactions equally</li>
+          <li><strong>Do NOT get consumed</strong> — they are catalysts, not reactants</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">Activation Energy — The Energy Barrier</div>
+
+    <div class="prose">
+      <p>Every chemical reaction has an <span class="hl">activation energy (Ea)</span> — the minimum energy that reactant molecules must have to begin the chemical transformation. Even if a reaction is energetically favorable (releases free energy overall; ΔG° &lt; 0), the molecules must still be "pushed" over this initial energy hill to reach the <strong>transition state</strong> — the unstable, highest-energy intermediate that sits at the top of the energy barrier.</p>
+    </div>
+
+    <div class="formula-block">
+      Without enzyme:<br>
+      <span class="comment">  Reactant → [Transition State: HIGH energy] → Product</span><br>
+      <span class="comment">  Energy barrier = LARGE Ea → reaction is slow</span><br><br>
+      With enzyme:<br>
+      <span class="comment">  Reactant → [Enzyme-stabilized Transition State: LOWER energy] → Product</span><br>
+      <span class="comment">  Energy barrier = SMALLER Ea → reaction is fast</span><br>
+      <span class="value">  ΔG° = same in both cases (thermodynamics unchanged)</span>
+    </div>
+
+    <div class="callout analogy">
+      <div class="callout-icon">💡</div>
+      <div class="callout-content">
+        <div class="callout-title">The Mountain Pass Analogy</div>
+        <div class="callout-body">Imagine hiking from a high valley (reactants) to a lower valley (products) — going downhill overall (thermodynamically favorable). But between them is a mountain pass (the transition state). Without a guide (enzyme), you must struggle over the highest peak to get through. With a guide, they show you a lower mountain pass — same start, same end, same overall descent, but the barrier you have to cross is MUCH lower. You get there much faster.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Case Study: Triose Phosphate Isomerase (TPI) — The "Perfect Enzyme"</div>
+
+    <div class="prose">
+      <p>TPI is present in virtually all living organisms and is considered nearly a <span class="hl">perfect enzyme</span> — meaning its rate-limiting step is not the catalytic chemistry itself, but simply <strong>how fast substrate molecules diffuse into the active site.</strong> Once a substrate is in, the product forms. TPI is a <strong>250 amino acid polypeptide chain</strong> that exists as a <strong>dimer (two identical subunits)</strong>.</p>
+    </div>
+
+    <div class="subsection-title">The Reaction: G3P → DHAP</div>
+
+    <div class="prose">
+      <p>TPI converts <strong>Glyceraldehyde 3-Phosphate (G3P)</strong> into <strong>Dihydroxyacetone Phosphate (DHAP)</strong>. Both are triose sugars (3-carbon) with a phosphate group. This reaction is part of glycolysis (the breakdown of glucose for energy).</p>
+    </div>
+
+    <div class="formula-block">
+      G3P → DHAP<br>
+      <span class="value">ΔG° = −1.86 Kcal/mol</span>  <span class="comment">// Thermodynamically FAVORABLE (product has lower free energy)</span><br><br>
+      BUT the intermediate is cis-enediol:<br>
+      <span class="value">ΔG° of transition = +26 Kcal/mol</span>  <span class="comment">// Transition state is HIGHLY unstable</span>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-content">
+        <div class="callout-title">The Problem Without TPI</div>
+        <div class="callout-body">The transition state (cis-enediol intermediate) is extremely unstable. Without an enzyme to stabilize it, <strong>the phosphate group spontaneously falls off</strong>, converting cis-enediol into a toxic compound called <strong>methylglyoxal</strong> (not DHAP). The reaction goes wrong. The enzyme is essential not just to speed up the reaction, but to <em>ensure the reaction goes to the right product.</em></div>
+      </div>
+    </div>
+
+    <div class="section-title">How TPI Works — Step by Step</div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Proton Donation to C1 of G3P</div>
+          <div class="step-body"><strong>Histidine at position 95 (His95)</strong> is the 95th amino acid. It is positively charged and precisely positioned in the active site to donate an H⁺ (proton) to the carbon-1 (C1) of G3P. This initiates the isomerization.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Proton Removal from C2 of G3P</div>
+          <div class="step-body"><strong>Glutamic acid at position 165 (Glu165)</strong> is negatively charged and positioned to accept (remove) an H⁺ from carbon-2 (C2) of G3P. Together with His95's donation, this creates the cis-enediol intermediate. The enzyme stabilizes this otherwise highly unstable molecule.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Phosphate Stabilization by Lys12</div>
+          <div class="step-body"><strong>Lysine at position 12 (Lys12)</strong> is positively charged. It electrostatically interacts with the <em>negatively charged phosphate group</em> of the substrate, holding it in place. Without this interaction, the phosphate would float away (forming toxic methylglyoxal).</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Loop Closure — The Critical Guard</div>
+          <div class="step-body">Once the substrate binds, a <strong>flexible loop region</strong> of TPI closes over the active site like a lid. This loop contains 4 polar amino acids that form hydrogen bonds with the cis-enediol intermediate, preventing it from floating away. It also <strong>excludes water</strong> from the active site — critical because water would facilitate the unwanted methylglyoxal side reaction.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Proton Return → Product DHAP Forms</div>
+          <div class="step-body">In step 2, Glu165 took H⁺ from C2 and became protonated. Now it donates that H⁺ to C1 of the intermediate. His95 takes H⁺ from C2. The result is <strong>DHAP</strong> — the correct product. The loop opens, DHAP is released, and the enzyme is ready for the next substrate molecule.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">What Happens When You Change Key Amino Acids?</div>
+
+    <div class="prose">
+      <p>One of the most powerful ways to understand an enzyme is to mutate its key residues and measure what happens. These experiments reveal exactly which amino acids matter and why:</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mutation</th><th>Change Made</th><th>Result</th><th>What This Tells Us</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Glu165 → Asp165</strong></td><td>Replace glutamic acid (165) with aspartic acid — same negative charge, but aspartate has one fewer –CH₂– unit (shorter by one carbon)</td><td><strong>1,000× slower</strong></td><td>The exact position of the negative charge matters enormously. Even 1 carbon bond of difference puts the charge in the wrong place, reducing efficiency 1000-fold</td></tr>
+          <tr><td><strong>Lys12 → Leu12</strong></td><td>Replace positively charged lysine with hydrophobic, nonpolar leucine (no charge)</td><td><strong>Enzyme completely non-functional</strong></td><td>The positive charge at position 12 is absolutely essential to stabilize the phosphate group. Remove the charge → enzyme cannot work at all</td></tr>
+          <tr><td><strong>Lys12 → Arg12</strong></td><td>Replace lysine with arginine — also positively charged, but bulkier</td><td><strong>~200× slower</strong></td><td>Having a + charge is necessary but not sufficient. The charge must be in exactly the right position. Arginine's positive charge is geometrically displaced from the optimal position</td></tr>
+          <tr><td><strong>Remove the Loop</strong></td><td>Delete the loop that closes over the active site</td><td><strong>100,000× slower</strong></td><td>The loop is perhaps the most critical feature. Without it, the cis-enediol intermediate escapes (forming methylglyoxal), and water enters the active site. The loop is essential for product specificity AND speed</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout fact">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-content">
+        <div class="callout-title">The "Perfect Enzyme" Concept</div>
+        <div class="callout-body">TPI is called "perfect" because its catalytic rate is limited only by the rate at which substrate molecules diffuse into the active site — not by the chemistry itself. The chemistry is so perfectly optimized that the enzyme is essentially "waiting" for the next substrate molecule. This is the pinnacle of enzyme evolution: every possible improvement to the chemistry has already been made.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Summary of Enzyme Properties</div>
+
+    <ul class="key-list">
+      <li><span class="bullet">1</span><strong>Does NOT change ΔG°</strong> — thermodynamics is fixed; enzyme cannot make unfavorable reactions favorable</li>
+      <li><span class="bullet">2</span><strong>DOES lower activation energy (Ea)</strong> — reduces the energy barrier → reaction is faster</li>
+      <li><span class="bullet">3</span><strong>Stabilizes the transition state</strong> — makes the unstable intermediate less unstable</li>
+      <li><span class="bullet">4</span><strong>Prevents side reactions</strong> — high specificity ensures only the intended product forms</li>
+      <li><span class="bullet">5</span><strong>Speeds up reaction</strong> — dramatically; some enzymes accelerate reactions 10¹⁷-fold</li>
+      <li><span class="bullet">6</span><strong>Not consumed</strong> — enzyme is regenerated after each reaction cycle; can be reused</li>
+      <li><span class="bullet">7</span><strong>Works in mild conditions</strong> — aqueous solution, physiological temperature and pH</li>
+    </ul>
+
+    <div class="callout exam">
+      <div class="callout-icon">⭐</div>
+      <div class="callout-content">
+        <div class="callout-title">Exam Tip — Complete Enzyme Summary</div>
+        <div class="callout-body">
+          <strong>Origin of word:</strong> "enzyme" = from Zyma (yeast); Buchner, Nobel 1907<br>
+          <strong>Enzymes lower Ea, NOT ΔG°</strong> — this distinction is critical and frequently tested<br>
+          <strong>TPI:</strong> G3P → DHAP, ΔG° = −1.86 Kcal/mol but transition state = +26 Kcal/mol<br>
+          <strong>His95:</strong> donates H⁺ to C1 of G3P<br>
+          <strong>Glu165:</strong> accepts H⁺ from C2. Replace with Asp → 1,000× slower<br>
+          <strong>Lys12:</strong> stabilizes phosphate group (+ve charge). Replace with Leu → completely dead. Replace with Arg → 200× slower<br>
+          <strong>The Loop:</strong> closes active site, excludes water, prevents side products. Remove it → 100,000× slower<br>
+          <strong>Perfect enzyme</strong> = rate limited only by diffusion
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- QUIZ -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="quiz-section" id="ch-quiz">
+  <div class="quiz-title">🎮 Practice Quiz</div>
+  <div class="quiz-subtitle">20 Questions · Test your knowledge · Click an option to see if you're right</div>
+
+  <!-- Q1 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 01</div>
+    <div class="quiz-q">Which property is TRUE about enzymes?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 1)">A. They change the ΔG° of the reaction</button>
+      <button class="quiz-opt" onclick="answer(this, true, 1)">B. They lower the activation energy (Ea)</button>
+      <button class="quiz-opt" onclick="answer(this, false, 1)">C. They are consumed in the reaction</button>
+      <button class="quiz-opt" onclick="answer(this, false, 1)">D. They make thermodynamically unfavorable reactions favorable</button>
+    </div>
+    <div class="quiz-explanation" id="exp-1">✅ Enzymes lower the <strong>activation energy (Ea)</strong>, not ΔG°. ΔG° (thermodynamic favorability) is a property of the reaction itself and cannot be changed by a catalyst. Enzymes are not consumed — they are regenerated after each cycle.</div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 02</div>
+    <div class="quiz-q">What is the key structural difference between starch and cellulose?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 2)">A. Starch uses glucose; cellulose uses fructose</button>
+      <button class="quiz-opt" onclick="answer(this, false, 2)">B. Starch is branched; cellulose is always linear</button>
+      <button class="quiz-opt" onclick="answer(this, true, 2)">C. Starch uses α-glucose; cellulose uses β-glucose</button>
+      <button class="quiz-opt" onclick="answer(this, false, 2)">D. They use different glycosidic linkage positions (1→4 vs 1→6)</button>
+    </div>
+    <div class="quiz-explanation" id="exp-2">✅ Both starch and cellulose are made of glucose linked by 1→4 glycosidic bonds. The critical difference is the <strong>configuration of glucose</strong>: starch uses α-glucose (–OH below ring at C1) → helical; cellulose uses β-glucose (–OH above ring at C1) → every unit flipped → straight chains → microfibrils.</div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 03</div>
+    <div class="quiz-q">In Triose Phosphate Isomerase (TPI), what is the role of Lysine at position 12?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 3)">A. Donates H⁺ to C1 of G3P</button>
+      <button class="quiz-opt" onclick="answer(this, false, 3)">B. Accepts H⁺ from C2 of G3P</button>
+      <button class="quiz-opt" onclick="answer(this, true, 3)">C. Stabilizes the negatively charged phosphate group</button>
+      <button class="quiz-opt" onclick="answer(this, false, 3)">D. Closes the loop over the active site</button>
+    </div>
+    <div class="quiz-explanation" id="exp-3">✅ Lysine12 is positively charged and positioned to electrostatically interact with the negatively charged phosphate group of the substrate. This holds the substrate in place. Replace it with leucine (no charge) → enzyme completely non-functional. Replace with arginine (+ charge, but bulkier) → 200× slower.</div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 04</div>
+    <div class="quiz-q">Which bond type is responsible for holding the α-helix secondary structure of proteins together?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 4)">A. Peptide bonds between R groups</button>
+      <button class="quiz-opt" onclick="answer(this, false, 4)">B. Disulfide bridges between cysteine residues</button>
+      <button class="quiz-opt" onclick="answer(this, true, 4)">C. Hydrogen bonds between backbone C=O and N–H groups</button>
+      <button class="quiz-opt" onclick="answer(this, false, 4)">D. Ionic bonds between charged R groups</button>
+    </div>
+    <div class="quiz-explanation" id="exp-4">✅ Secondary structure (α-helix and β-sheet) is maintained by <strong>hydrogen bonds between backbone atoms</strong> — specifically between the C=O (partial negative) and N–H (partial positive) of the polypeptide backbone. R groups are NOT involved at this level.</div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 05</div>
+    <div class="quiz-q">A fatty acid with NO C=C double bonds is called:</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 5)">A. Unsaturated fatty acid</button>
+      <button class="quiz-opt" onclick="answer(this, true, 5)">B. Saturated fatty acid</button>
+      <button class="quiz-opt" onclick="answer(this, false, 5)">C. Amphipathic fatty acid</button>
+      <button class="quiz-opt" onclick="answer(this, false, 5)">D. Polyunsaturated fatty acid</button>
+    </div>
+    <div class="quiz-explanation" id="exp-5">✅ A <strong>saturated</strong> fatty acid has no C=C double bonds — it is "saturated" with hydrogen atoms. All carbons carry the maximum number of H atoms. Saturated fats are solid at room temperature (straight chains pack tightly). Unsaturated fats have one or more C=C double bonds, causing kinks, making them liquid.</div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 06</div>
+    <div class="quiz-q">What causes phospholipids to spontaneously form a bilayer in water?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 6)">A. Covalent bonding between phospholipid molecules</button>
+      <button class="quiz-opt" onclick="answer(this, true, 6)">B. Their amphipathic nature — hydrophilic heads orient toward water, hydrophobic tails away</button>
+      <button class="quiz-opt" onclick="answer(this, false, 6)">C. Ionic bonds between phosphate groups</button>
+      <button class="quiz-opt" onclick="answer(this, false, 6)">D. Hydrogen bonds between fatty acid tails</button>
+    </div>
+    <div class="quiz-explanation" id="exp-6">✅ Phospholipids are <strong>amphipathic</strong> — they have a hydrophilic phosphate head (loves water) and two hydrophobic fatty acid tails (fear water). In water, the hydrophobic tails cluster together to minimize contact with water, while heads remain in contact with water. This spontaneous self-assembly creates the bilayer — the basis of all cell membranes.</div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 07</div>
+    <div class="quiz-q">Collagen has what type of quaternary structure?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 7)">A. 2α + 2β subunits forming a globular structure</button>
+      <button class="quiz-opt" onclick="answer(this, true, 7)">B. Three identical helical polypeptides wound into a triple helix</button>
+      <button class="quiz-opt" onclick="answer(this, false, 7)">C. Two polypeptide subunits joined by disulfide bridges</button>
+      <button class="quiz-opt" onclick="answer(this, false, 7)">D. A single polypeptide with extensive β-pleated sheet structure</button>
+    </div>
+    <div class="quiz-explanation" id="exp-7">✅ Collagen has <strong>three identical helical polypeptide chains</strong> intertwined into a right-handed triple helix. This structure gives collagen fibers exceptional tensile strength, making it ideal as a structural component of skin, bone, tendons, and ligaments. Collagen = 40% of total human body protein.</div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 08</div>
+    <div class="quiz-q">Why does ice float on liquid water?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 8)">A. Because ice has more hydrogen bonds per molecule than liquid water</button>
+      <button class="quiz-opt" onclick="answer(this, false, 8)">B. Because water expands and becomes denser when it freezes</button>
+      <button class="quiz-opt" onclick="answer(this, true, 8)">C. Because ice forms a spacious crystalline lattice, making it less dense than liquid water</button>
+      <button class="quiz-opt" onclick="answer(this, false, 8)">D. Because temperature reduces covalent bond strength in water</button>
+    </div>
+    <div class="quiz-explanation" id="exp-8">✅ When water freezes, each molecule forms H-bonds with 4 neighbors in a rigid, <strong>spacious crystalline lattice</strong>. This lattice has more space between molecules than liquid water → ice is <strong>less dense</strong> than liquid water → ice floats. This is unusual — most solids are denser than their liquids. Ice floating insulates liquid water below, protecting aquatic life in winter.</div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 09</div>
+    <div class="quiz-q">What is the only COVALENT interaction that stabilizes protein tertiary structure (besides the peptide backbone)?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 9)">A. Hydrogen bonds between polar R groups</button>
+      <button class="quiz-opt" onclick="answer(this, false, 9)">B. Ionic bonds between oppositely charged R groups</button>
+      <button class="quiz-opt" onclick="answer(this, true, 9)">C. Disulfide bridges between cysteine residues</button>
+      <button class="quiz-opt" onclick="answer(this, false, 9)">D. Hydrophobic interactions between nonpolar R groups</button>
+    </div>
+    <div class="quiz-explanation" id="exp-9">✅ <strong>Disulfide bridges (–S–S–)</strong> form between the sulfhydryl groups (–SH) of two cysteine residues when they are brought close together during folding. The sulfur atoms bond covalently, creating a very strong link that "rivets" parts of the protein together. All other tertiary structure interactions (H-bonds, ionic, hydrophobic, van der Waals) are non-covalent and relatively weak.</div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 10</div>
+    <div class="quiz-q">Sucrose is composed of:</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 10)">A. Two glucose molecules</button>
+      <button class="quiz-opt" onclick="answer(this, false, 10)">B. Glucose + Galactose</button>
+      <button class="quiz-opt" onclick="answer(this, true, 10)">C. Glucose + Fructose</button>
+      <button class="quiz-opt" onclick="answer(this, false, 10)">D. Two fructose molecules</button>
+    </div>
+    <div class="quiz-explanation" id="exp-10">✅ <strong>Sucrose</strong> (table sugar) = glucose + fructose. Lactose (milk sugar) = glucose + galactose. Maltose (malt sugar) = glucose + glucose. Plants transport carbohydrates from leaves to roots in the form of sucrose.</div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 11</div>
+    <div class="quiz-q">If you replace Glutamate165 with Aspartate165 in TPI, what happens?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 11)">A. The enzyme becomes completely non-functional</button>
+      <button class="quiz-opt" onclick="answer(this, true, 11)">B. The enzyme works ~1,000× slower</button>
+      <button class="quiz-opt" onclick="answer(this, false, 11)">C. The enzyme works ~200× slower</button>
+      <button class="quiz-opt" onclick="answer(this, false, 11)">D. The enzyme becomes ~100,000× slower</button>
+    </div>
+    <div class="quiz-explanation" id="exp-11">✅ Replacing Glu165 with Asp (same negative charge, but one fewer –CH₂– group → shorter by one carbon) makes TPI about <strong>1,000× slower</strong>. This shows that even ONE carbon bond of difference in positioning the critical charge changes efficiency 1000-fold. Position matters as much as charge type!</div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 12</div>
+    <div class="quiz-q">Which polysaccharide is MORE branched than amylopectin?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 12)">A. Amylose</button>
+      <button class="quiz-opt" onclick="answer(this, false, 12)">B. Cellulose</button>
+      <button class="quiz-opt" onclick="answer(this, true, 12)">C. Glycogen</button>
+      <button class="quiz-opt" onclick="answer(this, false, 12)">D. Chitin</button>
+    </div>
+    <div class="quiz-explanation" id="exp-12">✅ <strong>Glycogen</strong> (animal starch) is similar to amylopectin but has even more branching. Amylose is unbranched; amylopectin is branched; glycogen is the most branched. More branching = more free ends = faster hydrolysis = faster glucose release — important for animals that need rapid energy mobilization (e.g., muscle contraction, fight or flight).</div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 13</div>
+    <div class="quiz-q">What is the specific heat of water?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 13)">A. 0.6 cal/g·°C</button>
+      <button class="quiz-opt" onclick="answer(this, true, 13)">B. 1 cal/g·°C</button>
+      <button class="quiz-opt" onclick="answer(this, false, 13)">C. 4 cal/g·°C</button>
+      <button class="quiz-opt" onclick="answer(this, false, 13)">D. 80 cal/g·°C</button>
+    </div>
+    <div class="quiz-explanation" id="exp-13">✅ Water's specific heat = <strong>1 cal/g·°C</strong>. This is unusually high — water absorbs or releases a large amount of heat per degree of temperature change. This is because much of the heat goes into breaking or forming hydrogen bonds rather than changing molecular kinetic energy (temperature). Random thermal energy at room temperature ≈ 0.6 Kcal/mol.</div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 14</div>
+    <div class="quiz-q">Why does removing the loop in TPI reduce enzyme speed by 100,000×?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 14)">A. The loop donates protons to the substrate</button>
+      <button class="quiz-opt" onclick="answer(this, false, 14)">B. The loop contains the catalytic amino acids His95 and Glu165</button>
+      <button class="quiz-opt" onclick="answer(this, true, 14)">C. The loop closes the active site, excludes water, and prevents the intermediate from escaping</button>
+      <button class="quiz-opt" onclick="answer(this, false, 14)">D. The loop stabilizes the phosphate group of G3P</button>
+    </div>
+    <div class="quiz-explanation" id="exp-14">✅ The loop closes over the active site after substrate binding. It performs three critical functions: (1) keeps the cis-enediol intermediate in place via H-bonds, (2) excludes water from entering the active site (water would facilitate the side reaction forming methylglyoxal), and (3) ensures the reaction goes to the correct product (DHAP). Without it, the enzyme is 100,000× slower and makes wrong products.</div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 15</div>
+    <div class="quiz-q">What does "amphipathic" mean?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 15)">A. Having two types of covalent bonds</button>
+      <button class="quiz-opt" onclick="answer(this, true, 15)">B. Having both a hydrophilic region AND a hydrophobic region in the same molecule</button>
+      <button class="quiz-opt" onclick="answer(this, false, 15)">C. Being soluble in both water and organic solvents equally</button>
+      <button class="quiz-opt" onclick="answer(this, false, 15)">D. Having two fatty acid chains attached to glycerol</button>
+    </div>
+    <div class="quiz-explanation" id="exp-15">✅ <strong>Amphipathic</strong> molecules have both a hydrophilic ("water-loving") region and a hydrophobic ("water-fearing") region. Phospholipids are the classic example: the phosphate head is hydrophilic (faces water), the two fatty acid tails are hydrophobic (face away from water). This property drives spontaneous bilayer formation and is the basis of all biological membranes.</div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 16</div>
+    <div class="quiz-q">Which amino acids are commonly found in protein "turns" (U-shaped bends)?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 16)">A. Lysine and Glutamate</button>
+      <button class="quiz-opt" onclick="answer(this, false, 16)">B. Leucine and Phenylalanine</button>
+      <button class="quiz-opt" onclick="answer(this, true, 16)">C. Glycine and Proline</button>
+      <button class="quiz-opt" onclick="answer(this, false, 16)">D. Serine and Threonine</button>
+    </div>
+    <div class="quiz-explanation" id="exp-16">✅ <strong>Glycine</strong> has the smallest possible R group (just –H), so it creates no steric clash in tight bends. <strong>Proline</strong> has a ring structure that creates a built-in rigidity and bend in the polypeptide backbone. Together, they allow the chain to fold into the tight U-shaped turn structure. These turns redirect the polypeptide backbone and allow large proteins to fold into compact globular shapes.</div>
+  </div>
+
+  <!-- Q17 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 17</div>
+    <div class="quiz-q">The electronegativity difference between C and H is 0.4. This means the C–H bond is:</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, true, 17)">A. Nonpolar covalent</button>
+      <button class="quiz-opt" onclick="answer(this, false, 17)">B. Polar covalent</button>
+      <button class="quiz-opt" onclick="answer(this, false, 17)">C. Ionic</button>
+      <button class="quiz-opt" onclick="answer(this, false, 17)">D. Hydrogen bond</button>
+    </div>
+    <div class="quiz-explanation" id="exp-17">✅ The rule: electronegativity difference ≥ 0.5 → polar bond. C–H difference = 0.4 → <strong>NONPOLAR</strong>. This is why hydrocarbon regions of fatty acids are hydrophobic — C–H bonds share electrons almost equally, creating no partial charges, so water (which is polar) cannot interact with them. This is the molecular basis of fat being hydrophobic.</div>
+  </div>
+
+  <!-- Q18 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 18</div>
+    <div class="quiz-q">Hemoglobin consists of how many polypeptide subunits, and how many O₂ molecules can it carry?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 18)">A. 2 subunits; carries 2 O₂</button>
+      <button class="quiz-opt" onclick="answer(this, false, 18)">B. 3 subunits; carries 3 O₂</button>
+      <button class="quiz-opt" onclick="answer(this, true, 18)">C. 4 subunits (2α + 2β); carries 4 O₂</button>
+      <button class="quiz-opt" onclick="answer(this, false, 18)">D. 6 subunits; carries 6 O₂</button>
+    </div>
+    <div class="quiz-explanation" id="exp-18">✅ Hemoglobin has <strong>4 polypeptide subunits: 2α + 2β</strong>. Each subunit contains a non-protein heme group with an iron (Fe²⁺) atom at its center. Each iron atom can bind one O₂ molecule. So hemoglobin carries <strong>4 O₂ molecules simultaneously</strong>. Both α and β subunits are primarily α-helical in secondary structure.</div>
+  </div>
+
+  <!-- Q19 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 19</div>
+    <div class="quiz-q">Cellulose cannot be digested by humans because:</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 19)">A. It is made of fructose, not glucose</button>
+      <button class="quiz-opt" onclick="answer(this, false, 19)">B. It has 1→6 linkages instead of 1→4 linkages</button>
+      <button class="quiz-opt" onclick="answer(this, true, 19)">C. Humans lack enzymes that can break the β-glycosidic linkages of cellulose</button>
+      <button class="quiz-opt" onclick="answer(this, false, 19)">D. Cellulose molecules are too large to enter the digestive tract</button>
+    </div>
+    <div class="quiz-explanation" id="exp-19">✅ Cellulose uses <strong>β-glycosidic linkages</strong>. Human digestive enzymes (like α-amylase) can only break α-linkages (as in starch). The distinctly different 3D shape of cellulose's β-linkages prevents our enzymes from fitting and hydrolyzing them. Cows and termites can digest cellulose only because they harbor gut microbes that produce cellulase enzymes.</div>
+  </div>
+
+  <!-- Q20 -->
+  <div class="quiz-card">
+    <div class="quiz-q-num">QUESTION 20</div>
+    <div class="quiz-q">What percentage of dry mass in a cell does protein account for?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="answer(this, false, 20)">A. 15%</button>
+      <button class="quiz-opt" onclick="answer(this, false, 20)">B. 30%</button>
+      <button class="quiz-opt" onclick="answer(this, true, 20)">C. 50%</button>
+      <button class="quiz-opt" onclick="answer(this, false, 20)">D. 63%</button>
+    </div>
+    <div class="quiz-explanation" id="exp-20">✅ Proteins account for <strong>~50% of the dry mass</strong> of most cells — by far the largest fraction. The remaining dry mass: ~15% carbohydrates, ~15% nucleic acids, ~10% lipids/fats. (Note: 63% is the percentage of <em>atoms</em> in a cell that are hydrogen — a different metric entirely.)</div>
+  </div>
+
+</div><!-- end quiz -->
+
+</div><!-- end content-area -->
+</main>
+</div><!-- end layout -->
+
+<button class="mobile-menu-btn" id="mobileBtn" onclick="toggleMobile()">☰</button>
+
+<script>
+// ── MOBILE MENU ──
+function toggleMobile() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('mobileBtn').textContent = 
+    document.getElementById('sidebar').classList.contains('open') ? '✕' : '☰';
+}
+function closeMobile() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobileBtn').textContent = '☰';
+}
+
+// ── PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = Math.round((window.scrollY / docH) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = pct + '% complete';
+});
+
+// ── ACTIVE NAV ──
+const chapters = document.querySelectorAll('.chapter');
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = '#' + entry.target.id;
+      navItems.forEach(n => {
+        n.classList.toggle('active', n.getAttribute('href') === id);
+      });
+    }
+  });
+}, { threshold: 0.15, rootMargin: '-80px 0px -60% 0px' });
+
+chapters.forEach(ch => observer.observe(ch));
+
+// ── QUIZ ──
+function answer(btn, isCorrect, qNum) {
+  const card = btn.closest('.quiz-card');
+  const opts = card.querySelectorAll('.quiz-opt');
+  const exp = document.getElementById('exp-' + qNum);
+  
+  opts.forEach(o => {
+    o.disabled = true;
+    o.style.pointerEvents = 'none';
+  });
+  
+  if (isCorrect) {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    // highlight the correct one
+    opts.forEach(o => {
+      if (o.onclick.toString().includes('true')) {
+        o.classList.add('correct');
+      }
+    });
+  }
+  
+  exp.classList.add('show');
+}
+</script>
+</body>
+</html>
