@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Q13 — Mesh Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card: #111827;
+    --border: #1e293b;
+    --accent: #00f5d4;
+    --yellow: #ffd60a;
+    --red: #ff4d6d;
+    --blue: #4cc9f0;
+    --purple: #c77dff;
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, #00f5d420, transparent),
+                radial-gradient(ellipse 60% 40% at 80% 100%, #c77dff15, transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; position: relative; z-index: 1; }
+
+  header { text-align: center; padding: 3rem 0 2rem; }
+  header .tag {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 1px solid var(--accent);
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    margin-bottom: 1rem;
+    animation: fadeDown 0.6s ease;
+  }
+  header h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    animation: fadeDown 0.7s ease;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    color: var(--muted);
+    margin-top: 0.8rem;
+    font-size: 1rem;
+    animation: fadeDown 0.8s ease;
+  }
+
+  /* STEPS */
+  .steps-nav {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+  }
+  .step-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .step-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .step-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+
+  .step-panel { display: none; animation: fadeUp 0.4s ease; }
+  .step-panel.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.8rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .card h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .card h2 .icon { font-size: 1.4rem; }
+  .card p { color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
+
+  /* CIRCUIT SVG */
+  .circuit-wrap {
+    background: #060a12;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    overflow-x: auto;
+  }
+  svg text { font-family: 'JetBrains Mono', monospace; }
+
+  /* EQUATION BOXES */
+  .eq-box {
+    background: #060a12;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 0.9rem 1.2rem;
+    margin: 0.8rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+  .eq-box.yellow { border-color: var(--yellow); }
+  .eq-box.red { border-color: var(--red); }
+  .eq-box.blue { border-color: var(--blue); }
+  .eq-box .label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .eq-box .eq { font-size: 1.1rem; }
+  .eq-box .eq var { font-style: italic; color: var(--accent); }
+  .eq-box.yellow .eq var { color: var(--yellow); }
+  .eq-box.red .eq var { color: var(--red); }
+  .eq-box.blue .eq var { color: var(--blue); }
+
+  /* RESULT BOX */
+  .result-box {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .result-item {
+    background: #060a12;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .result-item:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .result-item .val {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+  }
+  .result-item.yellow .val { color: var(--yellow); }
+  .result-item.red .val { color: var(--red); }
+  .result-item.purple .val { color: var(--purple); }
+  .result-item .lbl { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+
+  /* FINAL ANSWER */
+  .final-answer {
+    background: linear-gradient(135deg, #00f5d410, #c77dff10);
+    border: 1px solid var(--accent);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  .final-answer .big { font-size: 3rem; font-weight: 800; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+  .final-answer .sub { color: var(--muted); margin-top: 0.4rem; }
+  .pulse { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+  /* NAV BUTTONS */
+  .nav-btns { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+  .nav-btn {
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+  }
+  .nav-btn:hover { background: var(--accent); color: #000; }
+  .nav-btn.primary { background: var(--accent); color: #000; }
+  .nav-btn.primary:hover { background: #00d4b8; }
+
+  /* MESH LEGEND */
+  .mesh-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+  }
+  .mesh-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .mesh-legend-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 2px solid;
+  }
+
+  /* STEP PROGRESS */
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 1.5rem 0;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* HIGHLIGHT */
+  .hi { color: var(--accent); font-weight: 700; }
+  .hi.y { color: var(--yellow); }
+  .hi.r { color: var(--red); }
+  .hi.b { color: var(--blue); }
+  .hi.p { color: var(--purple); }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-15px); } to { opacity:1; transform:none; } }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:none; } }
+
+  /* KVL TABLE */
+  table { width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:0.85rem; margin-top:0.8rem; }
+  th { background:#060a12; color:var(--accent); padding:0.6rem 0.8rem; text-align:left; border-bottom:1px solid var(--border); }
+  td { padding:0.6rem 0.8rem; border-bottom:1px solid var(--border); color:#94a3b8; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:#060a1240; }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: #000;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 800;
+    margin-right: 0.4rem;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="tag">BET_1071 — Circuit Theory</div>
+    <h1>Q13: <span>Mesh Analysis</span></h1>
+    <p>Find the voltage across the 3Ω resistor — step by step, visually.</p>
+  </header>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+
+  <div class="steps-nav">
+    <button class="step-btn active" onclick="goStep(1)">① Circuit</button>
+    <button class="step-btn" onclick="goStep(2)">② Meshes</button>
+    <button class="step-btn" onclick="goStep(3)">③ Equations</button>
+    <button class="step-btn" onclick="goStep(4)">④ Solve</button>
+    <button class="step-btn" onclick="goStep(5)">⑤ Answer</button>
+  </div>
+
+  <!-- STEP 1: THE CIRCUIT -->
+  <div class="step-panel active" id="step1">
+    <div class="card">
+      <h2><span class="icon">🔌</span> Understanding the Circuit</h2>
+      <p>Before solving anything, let's understand what we're looking at. The circuit has two sources and five resistors connected in a specific topology.</p>
+    </div>
+
+    <div class="circuit-wrap">
+      <svg viewBox="0 0 700 320" width="100%" style="max-height:300px">
+        <!-- Outer rectangle -->
+        <!-- Top wire -->
+        <line x1="80" y1="60" x2="620" y2="60" stroke="#334155" stroke-width="2"/>
+        <!-- Bottom wire -->
+        <line x1="80" y1="260" x2="620" y2="260" stroke="#334155" stroke-width="2"/>
+        <!-- Left wire -->
+        <line x1="80" y1="60" x2="80" y2="260" stroke="#334155" stroke-width="2"/>
+        <!-- Right wire -->
+        <line x1="620" y1="60" x2="620" y2="260" stroke="#334155" stroke-width="2"/>
+
+        <!-- Middle vertical wires -->
+        <line x1="270" y1="60" x2="270" y2="260" stroke="#334155" stroke-width="2"/>
+        <line x1="450" y1="60" x2="450" y2="260" stroke="#334155" stroke-width="2"/>
+
+        <!-- 7V Source (left) -->
+        <circle cx="80" cy="160" r="22" fill="#060a12" stroke="#ffd60a" stroke-width="2"/>
+        <text x="80" y="155" text-anchor="middle" fill="#ffd60a" font-size="11">7V</text>
+        <text x="80" y="168" text-anchor="middle" fill="#ffd60a" font-size="10">±</text>
+        <text x="55" y="165" fill="#ffd60a" font-size="18" font-weight="bold">+</text>
+
+        <!-- 1Ω top-left -->
+        <rect x="130" y="48" width="60" height="24" rx="4" fill="#0f172a" stroke="#00f5d4" stroke-width="1.5"/>
+        <text x="160" y="64" text-anchor="middle" fill="#00f5d4" font-size="13">1Ω</text>
+
+        <!-- 2Ω bottom-left -->
+        <rect x="130" y="248" width="60" height="24" rx="4" fill="#0f172a" stroke="#00f5d4" stroke-width="1.5"/>
+        <text x="160" y="264" text-anchor="middle" fill="#00f5d4" font-size="13">2Ω</text>
+
+        <!-- 3Ω middle horizontal (highlighted!) -->
+        <rect x="305" y="118" width="70" height="44" rx="6" fill="#0a1628" stroke="#ff4d6d" stroke-width="2.5"/>
+        <text x="340" y="136" text-anchor="middle" fill="#ff4d6d" font-size="11">3Ω</text>
+        <text x="340" y="152" text-anchor="middle" fill="#ff4d6d" font-size="9">← FIND V HERE</text>
+        <line x1="270" y1="140" x2="305" y2="140" stroke="#ff4d6d" stroke-width="2"/>
+        <line x1="375" y1="140" x2="410" y2="140" stroke="#ff4d6d" stroke-width="2"/>
+
+        <!-- Junction dots for 3Ω -->
+        <circle cx="270" cy="140" r="4" fill="#ff4d6d"/>
+        <circle cx="450" cy="140" r="4" fill="#ff4d6d"/>
+
+        <!-- Lines from vertical to 3Ω connection -->
+        <line x1="450" y1="140" x2="410" y2="140" stroke="#334155" stroke-width="2"/>
+
+        <!-- 2Ω top-right -->
+        <rect x="490" y="48" width="60" height="24" rx="4" fill="#0f172a" stroke="#00f5d4" stroke-width="1.5"/>
+        <text x="520" y="64" text-anchor="middle" fill="#00f5d4" font-size="13">2Ω</text>
+
+        <!-- 1Ω bottom-right -->
+        <rect x="490" y="248" width="60" height="24" rx="4" fill="#0f172a" stroke="#00f5d4" stroke-width="1.5"/>
+        <text x="520" y="264" text-anchor="middle" fill="#00f5d4" font-size="13">1Ω</text>
+
+        <!-- 7A Current Source (middle vertical) -->
+        <circle cx="270" cy="200" r="22" fill="#060a12" stroke="#c77dff" stroke-width="2"/>
+        <text x="270" y="196" text-anchor="middle" fill="#c77dff" font-size="11">7A</text>
+        <text x="270" y="210" text-anchor="middle" fill="#c77dff" font-size="11">↑</text>
+
+        <!-- Labels -->
+        <text x="140" y="42" fill="#64748b" font-size="10">i₁ loop</text>
+        <text x="320" y="42" fill="#64748b" font-size="10">i₂ loop</text>
+        <text x="480" y="42" fill="#64748b" font-size="10">i₃ loop</text>
+
+        <!-- Arrow indicators for mesh currents -->
+        <text x="155" y="175" fill="#ffd60a" font-size="22" opacity="0.3">↻</text>
+        <text x="320" y="230" fill="#c77dff" font-size="22" opacity="0.3">↻</text>
+        <text x="505" y="175" fill="#4cc9f0" font-size="22" opacity="0.3">↻</text>
+
+        <text x="140" y="200" fill="#ffd60a" font-size="12">i₁</text>
+        <text x="328" y="250" fill="#c77dff" font-size="12">i₂</text>
+        <text x="512" y="200" fill="#4cc9f0" font-size="12">i₃</text>
+      </svg>
+    </div>
+
+    <div class="card">
+      <h2><span class="icon">📋</span> Circuit Components</h2>
+      <table>
+        <tr><th>Component</th><th>Value</th><th>Location</th></tr>
+        <tr><td>Voltage Source</td><td style="color:var(--yellow)">7 V</td><td>Left branch</td></tr>
+        <tr><td>Current Source</td><td style="color:var(--purple)">7 A (↑)</td><td>Middle branch</td></tr>
+        <tr><td>Resistor R₁</td><td style="color:var(--accent)">1 Ω</td><td>Top-left</td></tr>
+        <tr><td>Resistor R₂</td><td style="color:var(--accent)">2 Ω</td><td>Bottom-left</td></tr>
+        <tr><td style="color:var(--red)">Resistor R₃ ★</td><td style="color:var(--red)">3 Ω</td><td>Middle horizontal ← FIND THIS</td></tr>
+        <tr><td>Resistor R₄</td><td style="color:var(--accent)">2 Ω</td><td>Top-right</td></tr>
+        <tr><td>Resistor R₅</td><td style="color:var(--accent)">1 Ω</td><td>Bottom-right</td></tr>
+      </table>
+    </div>
+    <div class="nav-btns"><button class="nav-btn primary" onclick="goStep(2)">Next: Assign Meshes →</button></div>
+  </div>
+
+  <!-- STEP 2: MESHES -->
+  <div class="step-panel" id="step2">
+    <div class="card">
+      <h2><span class="icon">🔄</span> What is a "Mesh"?</h2>
+      <p>A <span class="hi">mesh</span> is a closed loop in a circuit — like a window frame. We assign a <span class="hi">clockwise current</span> to each loop and call them <var>i₁, i₂, i₃</var>. The goal is to find these currents.</p>
+      <br>
+      <p>This is called <span class="hi">Mesh Analysis (KVL method)</span> — it's the most systematic way to solve multi-loop circuits.</p>
+    </div>
+
+    <div class="circuit-wrap">
+      <svg viewBox="0 0 700 320" width="100%" style="max-height:300px">
+        <!-- Mesh fills -->
+        <rect x="82" y="62" width="186" height="196" rx="4" fill="#ffd60a08" stroke="#ffd60a" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <rect x="272" y="62" width="176" height="196" rx="4" fill="#c77dff08" stroke="#c77dff" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <rect x="452" y="62" width="166" height="196" rx="4" fill="#4cc9f008" stroke="#4cc9f0" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+        <!-- Same circuit elements -->
+        <line x1="80" y1="60" x2="620" y2="60" stroke="#334155" stroke-width="2"/>
+        <line x1="80" y1="260" x2="620" y2="260" stroke="#334155" stroke-width="2"/>
+        <line x1="80" y1="60" x2="80" y2="260" stroke="#334155" stroke-width="2"/>
+        <line x1="620" y1="60" x2="620" y2="260" stroke="#334155" stroke-width="2"/>
+        <line x1="270" y1="60" x2="270" y2="260" stroke="#334155" stroke-width="2"/>
+        <line x1="450" y1="60" x2="450" y2="260" stroke="#334155" stroke-width="2"/>
+
+        <!-- Mesh current arrows (big) -->
+        <text x="130" y="180" fill="#ffd60a" font-size="36" opacity="0.7">↻</text>
+        <text x="308" y="220" fill="#c77dff" font-size="36" opacity="0.7">↻</text>
+        <text x="490" y="180" fill="#4cc9f0" font-size="36" opacity="0.7">↻</text>
+
+        <!-- Labels -->
+        <text x="155" y="130" fill="#ffd60a" font-size="16" font-weight="bold">i₁</text>
+        <text x="332" y="130" fill="#c77dff" font-size="16" font-weight="bold">i₂</text>
+        <text x="515" y="130" fill="#4cc9f0" font-size="16" font-weight="bold">i₃</text>
+
+        <!-- 7V Source -->
+        <circle cx="80" cy="160" r="20" fill="#060a12" stroke="#ffd60a" stroke-width="2"/>
+        <text x="80" y="157" text-anchor="middle" fill="#ffd60a" font-size="10">7V</text>
+        <text x="80" y="168" text-anchor="middle" fill="#ffd60a" font-size="10">±</text>
+
+        <!-- Resistors -->
+        <rect x="130" y="48" width="60" height="24" rx="4" fill="#0f172a" stroke="#00f5d4" stroke-width="1.5"/>
+        <text x="160" y="64" text-anchor="middle" fill="#00f5d4" font-size="12">1Ω</text>
+        <rect x="130" y="248" width="60" height="24" rx="4" fill="#0f172a" stroke="#00f5d4" stroke-width="1.5"/>
+        <text x="160" y="264" text-anchor="middle" fill="#00f5d4" font-size="12">2Ω</text>
+
+        <!-- 3Ω (red) -->
+        <rect x="305" y="126" width="70" height="28" rx="4" fill="#0a1628" stroke="#ff4d6d" stroke-width="2"/>
+        <text x="340" y="144" text-anchor="middle" fill="#ff4d6d" font-size="13" font-weight="bold">3Ω ★</text>
+        <line x1="270" y1="140" x2="305" y2="140" stroke="#ff4d6d" stroke-width="2"/>
+        <line x1="375" y1="140" x2="450" y2="140" stroke="#ff4d6d" stroke-width="2"/>
+
+        <!-- 7A Source -->
+        <circle cx="270" cy="200" r="20" fill="#060a12" stroke="#c77dff" stroke-width="2"/>
+        <text x="270" y="197" text-anchor="middle" fill="#c77dff" font-size="10">7A↑</text>
+
+        <!-- R4, R5 -->
+        <rect x="490" y="48" width="60" height="24" rx="4" fill="#0f172a" stroke="#00f5d4" stroke-width="1.5"/>
+        <text x="520" y="64" text-anchor="middle" fill="#00f5d4" font-size="12">2Ω</text>
+        <rect x="490" y="248" width="60" height="24" rx="4" fill="#0f172a" stroke="#00f5d4" stroke-width="1.5"/>
+        <text x="520" y="264" text-anchor="middle" fill="#00f5d4" font-size="12">1Ω</text>
+      </svg>
+    </div>
+
+    <div class="mesh-legend">
+      <div class="mesh-legend-item"><div class="mesh-legend-dot" style="border-color:var(--yellow);background:#ffd60a20"></div><span style="color:var(--yellow)">Mesh 1 — i₁</span></div>
+      <div class="mesh-legend-item"><div class="mesh-legend-dot" style="border-color:var(--purple);background:#c77dff20"></div><span style="color:var(--purple)">Mesh 2 — i₂ (has current source)</span></div>
+      <div class="mesh-legend-item"><div class="mesh-legend-dot" style="border-color:var(--blue);background:#4cc9f020"></div><span style="color:var(--blue)">Mesh 3 — i₃</span></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="icon">💡</span> Key Rule — Shared Resistors</h2>
+      <p>When a resistor sits <span class="hi">between two mesh loops</span>, the current through it is the <span class="hi">difference</span> of the two mesh currents. For example, the 3Ω resistor is shared between <span class="hi y">i₁</span> and <span class="hi p">i₂</span>, so current through it = <span class="hi y">i₁</span> − <span class="hi p">i₂</span>.</p>
+    </div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goStep(1)">← Back</button>
+      <button class="nav-btn primary" onclick="goStep(3)">Next: Write Equations →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: EQUATIONS -->
+  <div class="step-panel" id="step3">
+    <div class="card">
+      <h2><span class="icon">✍️</span> Writing KVL Equations</h2>
+      <p>For each mesh, we apply <span class="hi">Kirchhoff's Voltage Law (KVL)</span>: <em>"Sum of all voltage drops around a loop = 0"</em>. Voltage drop across a resistor = R × (mesh current through it).</p>
+    </div>
+
+    <div class="card" style="border-color:var(--yellow)">
+      <h2 style="color:var(--yellow)"><span class="step-num">1</span> Mesh 1 Equation — <var>i₁</var> loop</h2>
+      <p>Going clockwise around Mesh 1. We hit the 7V source, then resistors 1Ω, 3Ω, 2Ω:</p>
+      <div class="eq-box yellow">
+        <div class="label">KVL — Sum of voltages = 0</div>
+        <div class="eq">+7 − 1(i₁) − 3(<var>i₁</var> − <var>i₂</var>) − 2(<var>i₁</var> − <var>i₂</var>) = 0</div>
+      </div>
+      <p style="margin-top:0.8rem;">Expanding and collecting terms:</p>
+      <div class="eq-box yellow">
+        <div class="label">Simplified — Equation 1</div>
+        <div class="eq"><var>i₁</var> − 4<var>i₂</var> + 4<var>i₃</var> = 7 &nbsp;&nbsp;→ (Eq. 1)</div>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:var(--purple)">
+      <h2 style="color:var(--purple)"><span class="step-num" style="background:var(--purple)">2</span> Mesh 2 — Current Source Trick!</h2>
+      <p>Mesh 2 contains the <span class="hi p">7A current source</span>. When a current source is <span class="hi">between two meshes</span>, you do NOT write KVL. Instead, you write the <span class="hi">supermesh equation</span> directly — the difference of currents = source value:</p>
+      <div class="eq-box" style="border-color:var(--purple)">
+        <div class="label">Current Source Constraint — Equation 3</div>
+        <div class="eq"><var style="color:var(--purple)">i₁</var> − <var style="color:var(--purple)">i₃</var> = 7 &nbsp;&nbsp;→ (Eq. 3)</div>
+      </div>
+      <p style="margin-top:0.8rem; color:var(--muted); font-size:0.85rem;">✦ This is the simplest equation — directly from the 7A source sitting between mesh 1 and mesh 3</p>
+    </div>
+
+    <div class="card" style="border-color:var(--blue)">
+      <h2 style="color:var(--blue)"><span class="step-num" style="background:var(--blue)">3</span> Mesh 3 Equation — <var>i₃</var> loop</h2>
+      <p>Going clockwise around Mesh 3. Resistors: 3Ω (shared with mesh 1), 2Ω, 1Ω:</p>
+      <div class="eq-box blue">
+        <div class="label">KVL — Mesh 3</div>
+        <div class="eq">−3(<var>i₃</var> − <var>i₁</var>) − 2(<var>i₃</var>) − 1(<var>i₃</var>) = 0</div>
+      </div>
+      <div class="eq-box blue">
+        <div class="label">Simplified — Equation 2</div>
+        <div class="eq">−<var>i₁</var> + 6<var>i₂</var> − 3<var>i₃</var> = 0 &nbsp;&nbsp;→ (Eq. 2)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="icon">📊</span> The 3 Equations System</h2>
+      <div class="eq-box yellow"><div class="eq"><var>i₁</var> − 4<var>i₂</var> + 4<var>i₃</var> = 7 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1)</div></div>
+      <div class="eq-box blue"><div class="eq">−<var>i₁</var> + 6<var>i₂</var> − 3<var>i₃</var> = 0 &nbsp;&nbsp;&nbsp;(2)</div></div>
+      <div class="eq-box" style="border-color:var(--purple)"><div class="eq" style="color:var(--purple)"><var>i₁</var> − <var>i₃</var> = 7 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(3)</div></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goStep(2)">← Back</button>
+      <button class="nav-btn primary" onclick="goStep(4)">Next: Solve! →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: SOLVE -->
+  <div class="step-panel" id="step4">
+    <div class="card">
+      <h2><span class="icon">🧮</span> Solving the System of Equations</h2>
+      <p>We have 3 unknowns: <span class="hi y">i₁</span>, <span class="hi p">i₂</span>, <span class="hi b">i₃</span>. We solve step-by-step using <span class="hi">substitution</span>.</p>
+    </div>
+
+    <div class="card">
+      <h2><span class="step-num">A</span> From Equation (3) → Express i₁</h2>
+      <div class="eq-box" style="border-color:var(--purple)">
+        <div class="label">Eq (3): i₁ − i₃ = 7</div>
+        <div class="eq" style="color:var(--purple)">∴ i₁ = i₃ + 7</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step-num">B</span> Substitute i₁ into Equation (1)</h2>
+      <div class="eq-box yellow">
+        <div class="label">Eq (1): i₁ − 4i₂ + 4i₃ = 7 → substitute i₁ = i₃ + 7</div>
+        <div class="eq">(i₃ + 7) − 4<var>i₂</var> + 4i₃ = 7</div>
+      </div>
+      <div class="eq-box yellow">
+        <div class="label">Simplify</div>
+        <div class="eq">5i₃ − 4<var>i₂</var> + 7 = 7</div>
+      </div>
+      <div class="eq-box yellow">
+        <div class="label">Result</div>
+        <div class="eq"><var>i₂</var> = 5i₃ / 4 &nbsp;&nbsp;→ (4)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step-num">C</span> Substitute into Equation (2) to find i₃</h2>
+      <div class="eq-box blue">
+        <div class="label">Eq (2): −i₁ + 6i₂ − 3i₃ = 0 → substitute i₁ and i₂</div>
+        <div class="eq">−(i₃+7) + 6(5i₃/4) − 3i₃ = 0</div>
+      </div>
+      <div class="eq-box blue">
+        <div class="label">Expand</div>
+        <div class="eq">−i₃ − 7 + 30i₃/4 − 3i₃ = 0</div>
+      </div>
+      <div class="eq-box blue">
+        <div class="label">Collect i₃ terms &nbsp;(−1 + 7.5 − 3 = 3.5)</div>
+        <div class="eq">3.5 × i₃ = 7</div>
+      </div>
+      <div class="eq-box blue">
+        <div class="label">✅ Found i₃</div>
+        <div class="eq" style="font-size:1.3rem; color:var(--blue)">i₃ = 7 / 3.5 = <strong>2 A</strong></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step-num">D</span> Back-substitute to find i₁ and i₂</h2>
+      <div class="eq-box yellow">
+        <div class="label">i₁ = i₃ + 7</div>
+        <div class="eq" style="color:var(--yellow)">i₁ = 2 + 7 = <strong>9 A</strong></div>
+      </div>
+      <div class="eq-box" style="border-color:var(--purple)">
+        <div class="label">i₂ = 5×i₃/4</div>
+        <div class="eq" style="color:var(--purple)">i₂ = 5×2/4 = 10/4 = <strong>2.5 A</strong></div>
+      </div>
+    </div>
+
+    <div class="result-box">
+      <div class="result-item yellow"><div class="val">9 A</div><div class="lbl">i₁ — Mesh 1</div></div>
+      <div class="result-item purple"><div class="val">2.5 A</div><div class="lbl">i₂ — Mesh 2</div></div>
+      <div class="result-item" style=""><div class="val" style="color:var(--blue)">2 A</div><div class="lbl">i₃ — Mesh 3</div></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goStep(3)">← Back</button>
+      <button class="nav-btn primary" onclick="goStep(5)">Final Answer →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: ANSWER -->
+  <div class="step-panel" id="step5">
+    <div class="card">
+      <h2><span class="icon">⚡</span> Finding Voltage Across 3Ω</h2>
+      <p>The 3Ω resistor sits between <span class="hi y">Mesh 1</span> and <span class="hi p">Mesh 2</span>. The current through it is their <span class="hi">difference</span>:</p>
+      <div class="eq-box">
+        <div class="label">Current through 3Ω (shared between i₁ and i₂)</div>
+        <div class="eq">I₃Ω = i₁ − i₂ = 9 − 2.5 = <strong>0.5 A</strong></div>
+      </div>
+      <div class="eq-box" style="border-color:var(--red)">
+        <div class="label">Ohm's Law: V = I × R</div>
+        <div class="eq" style="color:var(--red)">V₃Ω = 0.5 × 3 = <strong>1.5 V</strong></div>
+      </div>
+    </div>
+
+    <div class="final-answer">
+      <div style="color:var(--muted); font-size:0.85rem; font-family:'JetBrains Mono',monospace; margin-bottom:0.5rem;">VOLTAGE ACROSS 3Ω RESISTOR</div>
+      <div class="big pulse">1.5 V</div>
+      <div class="sub">V = I × R = 0.5A × 3Ω = 1.5 V</div>
+    </div>
+
+    <div class="card" style="margin-top:1.2rem;">
+      <h2><span class="icon">📋</span> Complete Solution Summary</h2>
+      <table>
+        <tr><th>Step</th><th>What We Did</th><th>Result</th></tr>
+        <tr><td>1</td><td>Assigned 3 mesh currents</td><td>i₁, i₂, i₃ ↻</td></tr>
+        <tr><td>2</td><td>KVL for Mesh 1</td><td>i₁ − 4i₂ + 4i₃ = 7</td></tr>
+        <tr><td>3</td><td>Current source constraint</td><td>i₁ − i₃ = 7</td></tr>
+        <tr><td>4</td><td>KVL for Mesh 3</td><td>−i₁ + 6i₂ − 3i₃ = 0</td></tr>
+        <tr><td>5</td><td>Solved the system</td><td style="color:var(--yellow)">i₁=9A, i₂=2.5A, i₃=2A</td></tr>
+        <tr><td>6</td><td>Current through 3Ω</td><td>i₁ − i₂ = 0.5 A</td></tr>
+        <tr><td>7</td><td>Ohm's Law V = IR</td><td style="color:var(--red)">0.5 × 3 = <strong>1.5 V ✅</strong></td></tr>
+      </table>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goStep(4)">← Back</button>
+      <button class="nav-btn primary" onclick="goStep(1)">↺ Start Over</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 5;
+  const progressWidths = [20, 40, 60, 80, 100];
+
+  function goStep(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+    document.querySelectorAll('.step-btn')[n-1].classList.add('active');
+    document.getElementById('progressFill').style.width = progressWidths[n-1] + '%';
+    currentStep = n;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
